@@ -250,13 +250,14 @@ RF01–RF21: sistema de despacho. RF22–RF27: app do entregador.
 | RF18 | Ligar e desligar o modo demonstração | Essencial | — |
 | RF19 | Indicadores da noite: total de pedidos, atrasados, rotas despachadas, entregas pendentes, tempo médio entre "pronto" e despacho | Essencial | — |
 | RF20 | Tratar cancelamentos recebidos pela porta de entrada | Desejável | RN18 |
-| RF21 | Destacar entregas pendentes de confirmação e permitir resolvê-las | Essencial | RN24, RN25 |
+| RF21 | Destacar entregas pendentes de confirmação (selo no topo e aba "Pendentes") e permitir resolvê-las | Essencial | RN24, RN25 |
 | RF22 | Login do entregador no app com telefone e PIN | Essencial | RN21, RN27 |
 | RF23 | Exibir a rota com paradas na ordem, endereço e código, destacando a parada atual | Essencial | RN14, RN27 |
 | RF24 | Abrir Google Maps ou Waze com a localização da parada atual | Essencial | — |
 | RF25 | Confirmar a entrega com o código do cliente, validado pela fonte | Essencial | RN22 |
 | RF26 | Confirmar com o botão "Entregue" pedidos que não exigem código | Essencial | RN23 |
 | RF27 | Após 3 códigos inválidos ou sem resposta, marcar pendente e mostrar "Chamar atendente" | Essencial | RN24 |
+| RF28 | Mostrar o total de pedidos do dia e separar, em abas com contagem, os pedidos atrasados (própria e plataforma), as entregas pendentes de confirmação e os cancelados do dia | Essencial | RN08, RN18, RN24, RN28 |
 
 ## 8. Requisitos não funcionais
 

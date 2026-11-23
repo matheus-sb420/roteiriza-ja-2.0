@@ -47,7 +47,14 @@ repositório original. Etapas da 2.0, uma por commit (ou poucos commits):
 
 1. Contador de pedidos do dia ✅
 2. Interface mais limpa ✅
-3. Pedidos de qualquer plataforma (iFood e 99Food primeiro)
+3. Painel de pedidos: total do dia e abas de atrasados, pendentes e cancelados ✅
+4. Geolocalização do entregador e trajeto no mapa
+5. Ícone do estabelecimento configurável (pizza, hambúrguer, pastel, açaí…)
+6. Pedidos de qualquer plataforma (iFood e 99Food primeiro)
+
+Novas funcionalidades entram primeiro no branch `novas-funcionalidades`; o
+`main` só recebe depois de validadas. O branch `versao-2.0-estavel` guarda a
+versão anterior a elas, para voltar se algo falhar.
 
 ## Layout
 

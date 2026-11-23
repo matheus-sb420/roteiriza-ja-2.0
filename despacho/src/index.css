@@ -286,12 +286,54 @@ label.seletor {
 }
 .abas button {
   flex: 1;
+  padding: 0.3rem 0.35rem;
+  font-size: 13px;
+  white-space: nowrap;
 }
 .abas button.ativa {
   background: var(--primaria-clara);
   border-color: var(--primaria);
   color: var(--primaria-escura);
   font-weight: 600;
+}
+/* Contagem de pedidos em cada aba (RF28). */
+.contagem {
+  display: inline-block;
+  min-width: 1.4em;
+  padding: 0 0.3em;
+  border-radius: 999px;
+  background: var(--normal-claro);
+  color: var(--normal-texto);
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.abas button.com-alerta-atrasados .contagem {
+  background: var(--atrasado-claro);
+  color: var(--atrasado);
+}
+.abas button.com-alerta-pendentes .contagem {
+  background: var(--critico-claro);
+  color: var(--critico-texto);
+}
+.resumo-dia {
+  margin: 0.1rem 0 0.5rem;
+  font-size: 13px;
+  color: var(--texto-suave);
+}
+.resumo-dia strong {
+  font-size: 16px;
+  color: var(--texto);
+}
+.item-pendente .botoes {
+  margin-top: 0.35rem;
+}
+.item-cancelado strong {
+  text-decoration: line-through;
+  color: var(--texto-suave);
+}
+button.selo {
+  cursor: pointer;
 }
 .lateral-esquerda > select {
   width: 100%;

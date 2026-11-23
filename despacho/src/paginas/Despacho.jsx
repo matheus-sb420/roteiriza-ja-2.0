@@ -21,6 +21,8 @@ export default function Despacho() {
   const [modoCadastro, setModoCadastro] = useState(false);
   const [localCadastro, setLocalCadastro] = useState(null);
   const [aviso, setAviso] = useState('');
+  const [aba, setAba] = useState('propria');
+  const [filtro, setFiltro] = useState('ativos');
 
   const rotas = dados?.rotas ?? [];
   const pedidos = dados?.pedidos ?? [];
@@ -149,7 +151,6 @@ export default function Despacho() {
 
   if (!dados) return <p className="carregando">{erro ? `Erro: ${erro.message}` : 'Carregando…'}</p>;
 
-  const pendentes = pedidos.filter((p) => p.status === 'pendente_confirmacao');
   const { indicadores } = dados;
 
   return (
@@ -177,10 +178,15 @@ export default function Despacho() {
           Anéis e fatias
         </label>
         <div className="indicadores-rapidos">
-          <span className="selo selo-atrasado">▲ {indicadores.atrasadosAgora} atrasados agora</span>
+          {/* Os selos de atenção abrem a aba correspondente na lateral (RF21, RF28). */}
+          <button className="selo selo-atrasado" onClick={() => setAba('atrasados')}>
+            ▲ {indicadores.atrasadosAgora} atrasados agora
+          </button>
           <span className="selo">🛵 {indicadores.rotasNaRua} rotas na rua</span>
           {indicadores.entregasPendentes > 0 && (
-            <span className="selo selo-critico">⚠ {indicadores.entregasPendentes} pendentes</span>
+            <button className="selo selo-critico" onClick={() => setAba('pendentes')}>
+              ⚠ {indicadores.entregasPendentes} pendentes
+            </button>
           )}
         </div>
         <Legenda limiteCriticoMin={dados.configuracao.limiteCriticoMin} />
@@ -194,10 +200,17 @@ export default function Despacho() {
 
       <ListaPedidos
         pedidos={pedidos}
+        cancelados={dados.cancelados}
+        resumoDoDia={dados.resumoDoDia}
+        aba={aba}
+        aoMudarAba={setAba}
+        filtro={filtro}
+        aoMudarFiltro={setFiltro}
         selecionados={selecionados}
         aoAlternarSelecao={alternarSelecao}
         aoMarcarPronto={marcarPronto}
         aoCancelar={cancelarPedido}
+        aoResolver={acoes.resolver}
       />
 
       <main className="centro">
@@ -222,7 +235,6 @@ export default function Despacho() {
       <PainelRotas
         rotas={rotas}
         sugestoes={sugestoes}
-        pendentes={pendentes}
         entregadores={dados.entregadores}
         coresPorRota={coresPorRota}
         coresSugestoes={coresSugestoes}

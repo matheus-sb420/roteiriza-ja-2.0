@@ -25,6 +25,30 @@ describe('painel do despacho', () => {
   });
 });
 
+describe('cancelados e resumo do dia (RF28)', () => {
+  it('lista os cancelados do dia e conta os pedidos por status', async () => {
+    const a = await criarPedido();
+    const b = await criarPedido();
+    await criarPedido();
+    await admin(request(app).post(`/api/pedidos/${a}/cancelar`));
+    await Pedido.update({ status: 'entregue' }, { where: { id: b } });
+
+    const r = await admin(request(app).get('/api/painel'));
+    expect(r.body.cancelados.map((p) => p.id)).toEqual([a]);
+    expect(r.body.pedidos).toHaveLength(1);
+    expect(r.body.resumoDoDia.total).toBe(3);
+    expect(r.body.resumoDoDia.porStatus).toMatchObject({ cancelado: 1, entregue: 1, em_preparo: 1 });
+  });
+
+  it('cancelados de outro dia de operação não aparecem', async () => {
+    const a = await criarPedido();
+    await Pedido.update({ status: 'cancelado', diaOperacional: '2026-01-01' }, { where: { id: a } });
+    const r = await admin(request(app).get('/api/painel'));
+    expect(r.body.cancelados).toEqual([]);
+    expect(r.body.resumoDoDia.total).toBe(0);
+  });
+});
+
 describe('pendentes (RF21, RN25)', () => {
   it('marca como entregue ou registra o motivo', async () => {
     const a = await criarPedido();

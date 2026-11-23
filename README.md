@@ -211,7 +211,11 @@ Mudanças para levar o sistema a uma operação real, uma por vez:
 - [x] **1. Contador de pedidos do dia** — o pedido passa a ser "#8" na tela,
   com o código e a plataforma logo abaixo
 - [x] **2. Interface mais limpa** no despacho e no app do entregador
-- [ ] **3. Pedidos de qualquer plataforma**, a começar por iFood e 99Food
+- [x] **3. Painel de pedidos**: total do dia e abas de atrasados, pendentes e
+  cancelados, com contagem
+- [ ] **4. Geolocalização do entregador** e trajeto no mapa do despacho
+- [ ] **5. Ícone do estabelecimento configurável** (pizza, hambúrguer, pastel, açaí…)
+- [ ] **6. Pedidos de qualquer plataforma**, a começar por iFood e 99Food
 
 ## Autoria
 

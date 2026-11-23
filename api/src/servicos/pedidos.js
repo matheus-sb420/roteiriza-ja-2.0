@@ -3,6 +3,7 @@ const { sequelize, Sequelize, Pedido, Parada, Rota } = require('../models');
 const { STATUS_PEDIDO, STATUS_ROTA } = require('../nucleo/constantes');
 const { calcularSetor } = require('../nucleo/setor');
 const { avaliarPedido } = require('../nucleo/folga');
+const { diaOperacional } = require('../nucleo/contador');
 const { obterConfiguracao } = require('./configuracao');
 const { ErroNegocio, naoEncontrado } = require('../erros');
 
@@ -109,6 +110,31 @@ async function listarPedidosAtivos(agora = new Date()) {
     .sort((a, b) => a.folga - b.folga || new Date(a.horarioPedido) - new Date(b.horarioPedido));
 }
 
+// RF28: pedidos cancelados no dia de operação atual, o mais recente primeiro.
+// Ficam fora do mapa e das rotas, mas a atendente consulta na aba "Cancelados".
+async function listarCanceladosDoDia(agora = new Date()) {
+  const config = await obterConfiguracao();
+  const pedidos = await Pedido.findAll({
+    where: { status: STATUS_PEDIDO.CANCELADO, diaOperacional: diaOperacional(agora) },
+    order: [['numeroDoDia', 'DESC']],
+  });
+  return pedidos.map((p) => apresentarPedido(p, config, agora, null));
+}
+
+// RF28: total de pedidos do dia de operação e quantos há em cada status.
+async function resumoDoDia(agora = new Date()) {
+  const linhas = await Pedido.findAll({
+    attributes: ['status', [sequelize.fn('COUNT', sequelize.col('id')), 'quantidade']],
+    where: { diaOperacional: diaOperacional(agora) },
+    group: ['status'],
+    raw: true,
+  });
+  const porStatus = Object.fromEntries(Object.values(STATUS_PEDIDO).map((s) => [s, 0]));
+  for (const linha of linhas) porStatus[linha.status] = Number(linha.quantidade);
+  const total = Object.values(porStatus).reduce((a, b) => a + b, 0);
+  return { total, porStatus };
+}
+
 // RF07: marcar e desmarcar como pronto. Só faz sentido antes de o pedido sair.
 async function marcarPronto(id, pronto, agora = new Date()) {
   const pedido = await buscarPedido(id);
@@ -173,6 +199,8 @@ module.exports = {
   identificar,
   apresentarPedido,
   listarPedidosAtivos,
+  listarCanceladosDoDia,
+  resumoDoDia,
   marcarPronto,
   cancelarPedido,
 };

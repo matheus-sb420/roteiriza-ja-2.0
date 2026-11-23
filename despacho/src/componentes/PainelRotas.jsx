@@ -17,36 +17,6 @@ function ParadaResumo({ pedido, ordem }) {
   );
 }
 
-// Entregas pendentes de confirmação, no topo e em destaque (RF21).
-function Pendentes({ pendentes, aoResolver }) {
-  if (pendentes.length === 0) return null;
-  return (
-    <section className="bloco bloco-alerta">
-      <h3>⚠ Entregas pendentes de confirmação ({pendentes.length})</h3>
-      {pendentes.map((p) => (
-        <div key={p.id} className="linha-pendente">
-          <span>
-            <strong>{numeroPedido(p)}</strong> <small>{codigoPlataforma(p)}</small> — {p.endereco}
-          </span>
-          <div className="botoes">
-            <button className="primario" onClick={() => aoResolver(p, { entregue: true })}>
-              Foi entregue
-            </button>
-            <button
-              onClick={() => {
-                const motivo = window.prompt('Qual foi o problema com esta entrega?');
-                if (motivo) aoResolver(p, { motivo });
-              }}
-            >
-              Registrar problema
-            </button>
-          </div>
-        </div>
-      ))}
-    </section>
-  );
-}
-
 function Sugestoes({ sugestoes, cores, aoAceitar, aoDescartar }) {
   if (!sugestoes) return null;
   return (
@@ -162,11 +132,11 @@ function RotaDespachada({ rota, cor, aoConcluir }) {
   );
 }
 
-// Lateral direita: pendentes, sugestões, rotas em montagem e despachadas.
+// Lateral direita: sugestões, rotas em montagem e despachadas. As entregas
+// pendentes de confirmação ficam numa aba da lateral esquerda (RF21, RF28).
 export default function PainelRotas({
   rotas,
   sugestoes,
-  pendentes,
   entregadores,
   coresPorRota,
   coresSugestoes,
@@ -179,7 +149,6 @@ export default function PainelRotas({
 
   return (
     <aside className="lateral lateral-direita">
-      <Pendentes pendentes={pendentes} aoResolver={acoes.resolver} />
       <Sugestoes sugestoes={sugestoes} cores={coresSugestoes} aoAceitar={acoes.aceitar} aoDescartar={acoes.descartar} />
 
       <section className="bloco">
