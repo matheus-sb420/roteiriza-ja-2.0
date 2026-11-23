@@ -43,3 +43,26 @@ export const corDaRota = (indice) => CORES_ROTAS[indice % CORES_ROTAS.length];
 export const numeroPedido = (p) => `#${p.numeroDoDia}`;
 export const codigoPlataforma = (p) => `${p.codigoExibicao} · ${p.plataforma}`;
 export const rotuloPedido = (p) => `${numeroPedido(p)} (${codigoPlataforma(p)})`;
+
+// RN30: ícone da loja no mapa para cada tipo de estabelecimento. A lista de
+// tipos aceitos está na API (nucleo/constantes.js); aqui fica só o desenho.
+// Emojis antigos o bastante para aparecer no Windows 10 e em celulares de
+// alguns anos atrás (por isso o açaí usa a tigela de sorvete).
+export const ESTABELECIMENTOS = {
+  pizzaria: { nome: 'Pizzaria', icone: '🍕' },
+  lanchonete: { nome: 'Lanchonete / hamburgueria', icone: '🍔' },
+  pastelaria: { nome: 'Pastelaria', icone: '🥟' },
+  acai: { nome: 'Açaí', icone: '🍨' },
+  japonesa: { nome: 'Comida japonesa', icone: '🍣' },
+  sorveteria: { nome: 'Sorveteria', icone: '🍦' },
+  padaria: { nome: 'Padaria', icone: '🥐' },
+  cafeteria: { nome: 'Cafeteria', icone: '☕' },
+  marmitaria: { nome: 'Marmitaria', icone: '🍱' },
+  churrascaria: { nome: 'Churrascaria', icone: '🥩' },
+  doceria: { nome: 'Doceria / confeitaria', icone: '🍰' },
+  restaurante: { nome: 'Restaurante', icone: '🍽️' },
+  mercado: { nome: 'Mercado', icone: '🛒' },
+  farmacia: { nome: 'Farmácia', icone: '💊' },
+};
+
+export const iconeEstabelecimento = (tipo) => (ESTABELECIMENTOS[tipo] || ESTABELECIMENTOS.pizzaria).icone;

@@ -2,11 +2,22 @@ import { useMemo } from 'react';
 import L from 'leaflet';
 import { Circle, MapContainer, Marker, Polyline, TileLayer, Tooltip, useMapEvents } from 'react-leaflet';
 import { pontoADistancia } from '../geo';
-import { URGENCIA, STATUS, formatarFolga, setor, hora, numeroPedido, codigoPlataforma } from '../formatar';
+import {
+  URGENCIA,
+  STATUS,
+  formatarFolga,
+  setor,
+  hora,
+  numeroPedido,
+  codigoPlataforma,
+  iconeEstabelecimento,
+} from '../formatar';
 
 const FATIAS = ['N', 'NE', 'L', 'SE', 'S', 'SO', 'O', 'NO'];
 
-const iconePizzaria = L.divIcon({ className: '', html: '<div class="pino-pizzaria">🍕</div>', iconSize: null });
+// Ícone da loja no centro dos anéis (RN30), conforme o tipo configurado.
+const iconeDaLoja = (tipo) =>
+  L.divIcon({ className: '', html: `<div class="pino-pizzaria">${iconeEstabelecimento(tipo)}</div>`, iconSize: null });
 
 // O pino é HTML montado à mão; código e plataforma vêm da fonte do pedido.
 const escaparHtml = (texto) =>
@@ -129,7 +140,7 @@ export default function Mapa({
       />
       <CapturaClique ativo={modoCadastro} aoClicar={aoClicarMapa} />
       {mostrarSetores && <Setores centro={centro} raioMaximoKm={configuracao.raioMaximoKm} />}
-      <Marker position={centro} icon={iconePizzaria} />
+      <Marker position={centro} icon={iconeDaLoja(configuracao.tipoEstabelecimento)} />
 
       {linhas.map((linha) => (
         <Polyline

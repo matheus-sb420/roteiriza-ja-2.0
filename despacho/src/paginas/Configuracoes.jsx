@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { api } from '../api';
+import { ESTABELECIMENTOS } from '../formatar';
 
-// RF16 e RF18: configurações da pizzaria e modo demonstração.
+// RF16 e RF18: configurações da loja e modo demonstração; RN30: tipo e ícone.
 export default function Configuracoes() {
   const [form, setForm] = useState(null);
   const [mensagem, setMensagem] = useState('');
@@ -42,8 +43,28 @@ export default function Configuracoes() {
     <main className="pagina">
       <h1>Configurações</h1>
       <form onSubmit={salvar} className="grade-form">
+        <fieldset className="largo">
+          <legend>Tipo do estabelecimento (ícone da loja no mapa)</legend>
+          <div className="tipos-estabelecimento">
+            {Object.entries(ESTABELECIMENTOS).map(([tipo, { nome, icone }]) => (
+              <label key={tipo} className={form.tipoEstabelecimento === tipo ? 'tipo escolhido' : 'tipo'}>
+                <input
+                  type="radio"
+                  name="tipoEstabelecimento"
+                  value={tipo}
+                  checked={form.tipoEstabelecimento === tipo}
+                  onChange={muda('tipoEstabelecimento')}
+                />
+                <span className="tipo-icone" aria-hidden="true">
+                  {icone}
+                </span>
+                {nome}
+              </label>
+            ))}
+          </div>
+        </fieldset>
         <label className="largo">
-          Endereço da pizzaria
+          Endereço da loja
           <input value={form.enderecoPizzaria} onChange={muda('enderecoPizzaria')} />
         </label>
         <label>

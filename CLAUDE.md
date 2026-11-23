@@ -49,7 +49,7 @@ repositório original. Etapas da 2.0, uma por commit (ou poucos commits):
 2. Interface mais limpa ✅
 3. Painel de pedidos: total do dia e abas de atrasados, pendentes e cancelados ✅
 4. Geolocalização do entregador e trajeto no mapa ✅
-5. Ícone do estabelecimento configurável (pizza, hambúrguer, pastel, açaí…)
+5. Ícone do estabelecimento configurável (pizza, hambúrguer, pastel, açaí…) ✅
 6. Pedidos de qualquer plataforma (iFood e 99Food primeiro)
 
 Novas funcionalidades entram primeiro no branch `novas-funcionalidades`; o
@@ -153,6 +153,10 @@ responde 409 com `detalhes.precisaConfirmar` e a tela reenvia com
 - Status são `STRING` com `CHECK` no banco e `isIn` no model, usando as
   constantes de `src/nucleo/constantes.js` (não usar ENUM do Postgres: é
   difícil de alterar depois).
+- Tipo do estabelecimento (RN30): `configuracoes.tipo_estabelecimento`, valores
+  em `TIPO_ESTABELECIMENTO` (`constantes.js`), validado só no model (sem CHECK,
+  para um tipo novo não exigir migration). O emoji de cada tipo fica em
+  `despacho/src/formatar.js` (`ESTABELECIMENTOS`).
 - Nunca editar uma migration já commitada: criar uma nova.
 - Folga não é gravada (depende de "agora"). Anel e fatia são gravados no pedido.
 - Hash de senha/PIN fica fora do `defaultScope`; use `scope('comSenha')` /

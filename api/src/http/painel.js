@@ -28,6 +28,7 @@ router.get('/', async (req, res) => {
       longitudePizzaria: config.longitudePizzaria,
       raioMaximoKm: config.raioMaximoKm,
       limiteCriticoMin: config.limiteCriticoMin,
+      tipoEstabelecimento: config.tipoEstabelecimento,
     },
     pedidos,
     cancelados,

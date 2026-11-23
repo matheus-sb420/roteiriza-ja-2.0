@@ -32,6 +32,25 @@ const SITUACAO_ENTREGADOR = Object.freeze({
   FORA_DE_SERVICO: 'fora_de_servico',
 });
 
+// Tipo do estabelecimento (RN30): define o ícone da loja no mapa. O ícone de
+// cada tipo fica nas telas; aqui só a lista de valores aceitos.
+const TIPO_ESTABELECIMENTO = Object.freeze([
+  'pizzaria',
+  'lanchonete',
+  'pastelaria',
+  'acai',
+  'japonesa',
+  'sorveteria',
+  'padaria',
+  'cafeteria',
+  'marmitaria',
+  'churrascaria',
+  'doceria',
+  'restaurante',
+  'mercado',
+  'farmacia',
+]);
+
 // Fatias de 45° no sentido horário a partir do norte (RN10).
 const FATIAS = Object.freeze(['N', 'NE', 'L', 'SE', 'S', 'SO', 'O', 'NO']);
 
@@ -41,5 +60,6 @@ module.exports = {
   STATUS_ROTA,
   ORIGEM_ROTA,
   SITUACAO_ENTREGADOR,
+  TIPO_ESTABELECIMENTO,
   FATIAS,
 };

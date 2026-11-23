@@ -154,6 +154,18 @@ describe('configuração (RF16)', () => {
     const r = await admin(request(app).put('/api/configuracao')).send({ raioMaximoKm: 20 });
     expect(r.status).toBe(422);
   });
+
+  it('troca o tipo do estabelecimento e recusa tipo desconhecido (RN30)', async () => {
+    expect((await admin(request(app).get('/api/configuracao'))).body.tipoEstabelecimento).toBe('pizzaria');
+
+    const ok = await admin(request(app).put('/api/configuracao')).send({ tipoEstabelecimento: 'acai' });
+    expect(ok.status).toBe(200);
+    const painel = await admin(request(app).get('/api/painel'));
+    expect(painel.body.configuracao.tipoEstabelecimento).toBe('acai');
+
+    const ruim = await admin(request(app).put('/api/configuracao')).send({ tipoEstabelecimento: 'nave-espacial' });
+    expect(ruim.status).toBe(422);
+  });
 });
 
 describe('entregadores (RF15, RN21)', () => {

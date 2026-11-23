@@ -13,6 +13,7 @@ const CAMPOS_EDITAVEIS = [
   'limiteCriticoMin',
   'prazoRetencaoDias',
   'modoDemonstracao',
+  'tipoEstabelecimento',
 ];
 
 async function obterConfiguracao() {

@@ -699,3 +699,42 @@ fieldset {
   font-size: 2rem;
   font-weight: 700;
 }
+
+/* Escolha do tipo do estabelecimento (RN30). */
+.tipos-estabelecimento {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.4rem;
+}
+.tipos-estabelecimento .tipo {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+.tipos-estabelecimento .tipo input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.tipos-estabelecimento .tipo:focus-within {
+  outline: 2px solid var(--primaria);
+  outline-offset: 1px;
+}
+.tipos-estabelecimento .tipo.escolhido {
+  border-color: var(--primaria);
+  background: var(--primaria-clara);
+  color: var(--primaria-escura);
+  font-weight: 600;
+}
+.tipo-icone {
+  font-size: 22px;
+  line-height: 1;
+}

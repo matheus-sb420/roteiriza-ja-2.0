@@ -181,6 +181,7 @@ pedidos que exigem atenção.
 | RN27 | O entregador vê no app apenas a rota atribuída a ele. |
 | RN28 | Cada pedido recebe, ao entrar no sistema, um número sequencial do dia (#1, #2, #3…), que é a identificação principal nas telas. O pino mostra o número em destaque e, abaixo, o código e a plataforma (ex.: "#8 / 2365 · iFood"). O contador reinicia a cada dia de operação, com virada às 6h (horário de São Paulo), e nunca repete um número no mesmo dia. |
 | RN29 | Com a permissão do entregador, o app envia a localização dele enquanto está aberto (no máximo a cada 15 s, ou ao andar 30 m; parado, a cada 30 s). Pontos com precisão pior que 100 m são descartados e, fora de serviço, nada é gravado. O despacho mostra o entregador com sinal nos últimos 30 min ("ao vivo" até 2 min) e o trajeto percorrido na rota atual. As posições seguem o prazo de retenção da LGPD (RN20). |
+| RN30 | O estabelecimento escolhe o seu tipo nas configurações (pizzaria, lanchonete, pastelaria, açaí, japonesa, sorveteria, padaria, cafeteria, marmitaria, churrascaria, doceria, restaurante, mercado ou farmácia), e o ícone da loja no mapa acompanha o tipo. O padrão é pizzaria. |
 
 ## 6. Algoritmo de sugestão de rotas
 

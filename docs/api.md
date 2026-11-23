@@ -51,7 +51,7 @@ Exemplo de novo pedido:
 | GET | `/api/painel` | Tudo para a tela de despacho: configuração, pedidos ativos, cancelados do dia (`cancelados`), total por status do dia (`resumoDoDia: { total, porStatus }`), rotas, entregadores, localização dos entregadores (`localizacoes: [{ entregadorId, nome, latitude, longitude, precisaoM, registradaEm, sinal, rotaId, trajeto }]`) e indicadores rápidos |
 | GET | `/api/painel/indicadores` | Indicadores da noite (últimas 12 h, RF19) |
 | GET | `/api/configuracao` | Configuração atual |
-| PUT | `/api/configuracao` | Altera configuração (só os campos enviados) |
+| PUT | `/api/configuracao` | Altera configuração (só os campos enviados), inclusive `tipoEstabelecimento` (RN30; tipo desconhecido → 422) |
 | GET | `/api/entregadores` | Lista entregadores |
 | POST | `/api/entregadores` | `{ nome, telefone }` → `{ entregador, pin }` (o PIN só aparece aqui) |
 | POST | `/api/entregadores/:id/pin` | Gera um PIN novo → `{ pin }` |

@@ -42,7 +42,7 @@ export default function MinhaRota({ aoSair }) {
       // RN24: o pedido fica para a atendente e o entregador segue.
       setAviso({ tipo: 'alerta', texto: 'Não foi possível confirmar. Chame a atendente e siga para a próxima parada.' });
     } else if (resultado.rotaConcluida) {
-      setAviso({ tipo: 'sucesso', texto: 'Rota concluída! Volte para a pizzaria.' });
+      setAviso({ tipo: 'sucesso', texto: 'Rota concluída! Volte para a loja.' });
     } else {
       setAviso({ tipo: 'sucesso', texto: 'Entrega confirmada.' });
     }

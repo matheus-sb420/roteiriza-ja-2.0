@@ -9,7 +9,7 @@ export default function AvisoLocalizacao({ situacao, aoPermitir }) {
         <section className="localizacao localizacao-pedir">
           <p>
             <strong>📍 Compartilhar sua localização</strong>
-            <br />A pizzaria acompanha sua rota no mapa enquanto você trabalha. Fora de serviço, nada é guardado.
+            <br />A loja acompanha sua rota no mapa enquanto você trabalha. Fora de serviço, nada é guardado.
           </p>
           <button className="botao-grande primario" onClick={aoPermitir}>
             Permitir localização
@@ -34,7 +34,7 @@ export default function AvisoLocalizacao({ situacao, aoPermitir }) {
     case SITUACAO.SEM_HTTPS:
       return (
         <p className="localizacao localizacao-alerta">
-          📍 A localização só funciona quando o app é aberto por um endereço seguro (https). Avise a pizzaria.
+          📍 A localização só funciona quando o app é aberto por um endereço seguro (https). Avise a loja.
         </p>
       );
     case SITUACAO.INDISPONIVEL:

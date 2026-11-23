@@ -1,3 +1,5 @@
+const { TIPO_ESTABELECIMENTO } = require('../nucleo/constantes');
+
 module.exports = (sequelize, DataTypes) => {
   const Configuracao = sequelize.define(
     'Configuracao',
@@ -30,6 +32,15 @@ module.exports = (sequelize, DataTypes) => {
       limiteCriticoMin: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 10, validate: { min: 0 } },
       prazoRetencaoDias: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 30, validate: { min: 1 } },
       modoDemonstracao: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
+      // RN30: ícone da loja no mapa.
+      tipoEstabelecimento: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'pizzaria',
+        validate: {
+          isIn: { args: [TIPO_ESTABELECIMENTO], msg: 'tipoEstabelecimento desconhecido' },
+        },
+      },
     },
     { tableName: 'configuracoes' },
   );

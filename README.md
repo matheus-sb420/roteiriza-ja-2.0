@@ -229,7 +229,7 @@ Mudanças para levar o sistema a uma operação real, uma por vez:
 - [x] **3. Painel de pedidos**: total do dia e abas de atrasados, pendentes e
   cancelados, com contagem
 - [x] **4. Geolocalização do entregador** e trajeto no mapa do despacho
-- [ ] **5. Ícone do estabelecimento configurável** (pizza, hambúrguer, pastel, açaí…)
+- [x] **5. Ícone do estabelecimento configurável** (pizza, hambúrguer, pastel, açaí…)
 - [ ] **6. Pedidos de qualquer plataforma**, a começar por iFood e 99Food
 
 ## Autoria
