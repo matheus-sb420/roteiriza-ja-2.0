@@ -10,6 +10,11 @@ Projeto de TCC — prova de conceito. Na demonstração, os pedidos vêm de um
 simulador e de cadastro manual; a integração real com iFood, 99Food e outras
 plataformas fica para o futuro e não exige mudar o núcleo do sistema.
 
+> **Versão 2.0** — evolução do protótipo do TCC para uso num delivery real.
+> A versão 1.0 está preservada na tag [`v1.0`](../../tree/v1.0) e no
+> repositório original [`roteiriza-ja`](https://github.com/matheus-sb420/roteiriza-ja).
+> Para ver tudo o que mudou: [`compare/v1.0...main`](../../compare/v1.0...main).
+
 - Requisitos completos: [`docs/requisitos.md`](docs/requisitos.md)
 - Endpoints da API: [`docs/api.md`](docs/api.md)
 - Guia de desenvolvimento (arquitetura e convenções): [`CLAUDE.md`](CLAUDE.md)
@@ -197,6 +202,15 @@ Cada etapa vai num commit separado, com a explicação do que foi feito e por qu
 - [x] **5. Tela de despacho** com o mapa
 - [x] **6. App do entregador**
 - [x] **7. Simulador**
+
+## Versão 2.0
+
+Mudanças para levar o sistema a uma operação real, uma por vez:
+
+- [ ] **1. Contador de pedidos do dia** — o pedido passa a ser "#8" na tela,
+  com o código e a plataforma logo abaixo
+- [ ] **2. Interface mais limpa** no despacho e no app do entregador
+- [ ] **3. Pedidos de qualquer plataforma**, a começar por iFood e 99Food
 
 ## Autoria
 

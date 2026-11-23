@@ -40,6 +40,15 @@ Não incluir links de sessão nem nome de modelo nas mensagens.
 
 Ao terminar uma etapa, marcar o checklist no `README.md`.
 
+### Versão 2.0
+
+Este repositório é a versão 2.0; a 1.0 fica intocada na tag `v1.0` e no
+repositório original. Etapas da 2.0, uma por commit (ou poucos commits):
+
+1. Contador de pedidos do dia
+2. Interface mais limpa
+3. Pedidos de qualquer plataforma (iFood e 99Food primeiro)
+
 ## Layout
 
 ```
