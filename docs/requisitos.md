@@ -176,6 +176,7 @@ Recalculada a cada minuto: atrasado (vermelho), crítico (laranja), normal (verd
 | RN25 | A atendente resolve o pendente pela própria plataforma e marca o pedido como "entregue" ou registra o motivo do problema. |
 | RN26 | A rota é concluída automaticamente quando todas as paradas estão entregues, pendentes ou canceladas. O entregador volta a "disponível". |
 | RN27 | O entregador vê no app apenas a rota atribuída a ele. |
+| RN28 | Cada pedido recebe, ao entrar no sistema, um número sequencial do dia (#1, #2, #3…), que é a identificação principal nas telas. O pino mostra o número em destaque e, abaixo, o código e a plataforma (ex.: "#8 / 2365 · iFood"). O contador reinicia a cada dia de operação, com virada às 6h (horário de São Paulo), e nunca repete um número no mesmo dia. |
 
 ## 6. Algoritmo de sugestão de rotas
 
@@ -229,7 +230,7 @@ RF01–RF21: sistema de despacho. RF22–RF27: app do entregador.
 | RF01 | Permitir login do administrador com usuário e senha | Essencial | — |
 | RF02 | Receber pedidos pela porta de entrada, validando os campos obrigatórios | Essencial | RN01–RN03 |
 | RF03 | Permitir cadastrar um pedido manualmente, marcando o local com um clique no mapa | Essencial | RN03 |
-| RF04 | Exibir o mapa com anéis, fatias e um pino por pedido, com ícone da plataforma, código e cor de urgência | Essencial | RN08–RN10 |
+| RF04 | Exibir o mapa com anéis, fatias e um pino por pedido, com o número do dia, o código e a plataforma do pedido e a cor de urgência | Essencial | RN08–RN10, RN28 |
 | RF05 | Exibir lista de pedidos ordenada pela folga, ao lado do mapa | Essencial | RN07 |
 | RF06 | Recalcular folga e classificação a cada minuto, sem recarregar a página | Essencial | RN07, RN08 |
 | RF07 | Permitir marcar e desmarcar um pedido como pronto | Essencial | — |

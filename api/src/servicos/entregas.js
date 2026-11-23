@@ -28,6 +28,7 @@ async function rotaDoEntregador(entregadorId) {
   const paradas = rota.paradas.map((parada) => ({
     ordem: parada.ordem,
     pedidoId: parada.pedido.id,
+    numeroDoDia: parada.pedido.numeroDoDia,
     plataforma: parada.pedido.plataforma,
     codigoExibicao: parada.pedido.codigoExibicao,
     endereco: parada.pedido.endereco,

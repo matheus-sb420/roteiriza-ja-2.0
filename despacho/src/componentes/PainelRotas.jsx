@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { URGENCIA, STATUS, formatarFolga, hora } from '../formatar';
+import { URGENCIA, STATUS, formatarFolga, hora, numeroPedido, codigoPlataforma } from '../formatar';
 
 function ParadaResumo({ pedido, ordem }) {
   const u = URGENCIA[pedido.classificacao];
@@ -7,7 +7,7 @@ function ParadaResumo({ pedido, ordem }) {
     <>
       <span className="ordem">{ordem}</span>
       <span className={pedido.status === 'cancelado' ? 'riscado' : ''}>
-        {pedido.plataforma} {pedido.codigoExibicao}
+        <strong>{numeroPedido(pedido)}</strong> <small>{codigoPlataforma(pedido)}</small>
       </span>
       <span className={`urgencia urgencia-${pedido.classificacao}`}>
         {u.simbolo} {formatarFolga(pedido.folga)}
@@ -26,7 +26,7 @@ function Pendentes({ pendentes, aoResolver }) {
       {pendentes.map((p) => (
         <div key={p.id} className="linha-pendente">
           <span>
-            {p.plataforma} {p.codigoExibicao} — {p.endereco}
+            <strong>{numeroPedido(p)}</strong> <small>{codigoPlataforma(p)}</small> — {p.endereco}
           </span>
           <div className="botoes">
             <button className="primario" onClick={() => aoResolver(p, { entregue: true })}>

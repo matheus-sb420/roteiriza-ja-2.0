@@ -38,6 +38,36 @@ describe('porta de entrada (RF02)', () => {
     expect(gravado.origem).toBe('SIMULADOR');
   });
 
+  it('numera os pedidos do dia em sequência, #1, #2, #3 (RN28)', async () => {
+    const numeros = [];
+    for (let i = 0; i < 3; i++) {
+      const r = await comChave(request(app).post('/entrada/pedidos')).send(pedidoContrato());
+      numeros.push(r.body.numeroDoDia);
+    }
+    expect(numeros).toEqual([1, 2, 3]);
+
+    const lista = await admin(request(app).get('/api/pedidos'));
+    expect(lista.body.map((p) => p.numeroDoDia).sort()).toEqual([1, 2, 3]);
+  });
+
+  it('pedidos que chegam ao mesmo tempo nunca repetem o número (RN28)', async () => {
+    const respostas = await Promise.all(
+      Array.from({ length: 10 }, () => comChave(request(app).post('/entrada/pedidos')).send(pedidoContrato())),
+    );
+    const numeros = respostas.map((r) => r.body.numeroDoDia).sort((a, b) => a - b);
+    expect(numeros).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  });
+
+  it('o contador recomeça em cada dia de operação (RN28)', async () => {
+    const { diaOperacional } = require('../src/nucleo/contador');
+    const base = { ...pedidoContrato(), status: 'em_preparo', anel: 2, fatia: 'NE' };
+    const ontem = await Pedido.create({ ...base, diaOperacional: '2026-11-19' });
+    const hoje = await Pedido.create(base);
+    expect(ontem.numeroDoDia).toBe(1);
+    expect(hoje.numeroDoDia).toBe(1);
+    expect(hoje.diaOperacional).toBe(diaOperacional(new Date()));
+  });
+
   it('recusa pedido fora do contrato com a lista de erros', async () => {
     const r = await comChave(request(app).post('/entrada/pedidos')).send(pedidoContrato({ latitude: null }));
     expect(r.status).toBe(422);

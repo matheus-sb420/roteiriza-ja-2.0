@@ -14,7 +14,7 @@ Base: `http://localhost:3000`. Corpo e respostas em JSON. Erros vêm como
 
 | Método | Caminho | O que faz |
 |---|---|---|
-| POST | `/entrada/pedidos` | Novo pedido (contrato da seção 9.2). Responde `201 { id, anel, fatia, foraDaArea }` |
+| POST | `/entrada/pedidos` | Novo pedido (contrato da seção 9.2). Responde `201 { id, numeroDoDia, anel, fatia, foraDaArea }` |
 | POST | `/entrada/pedidos/:id/cancelado` | Pedido cancelado. Corpo `{ origem }` (precisa ser a mesma do pedido) |
 | POST | `/entrada/pedidos/:id/pronto` | Pedido pronto. Corpo `{ origem }` |
 | GET | `/entrada/configuracao` | Coordenadas da pizzaria, raio máximo e modo demonstração |
@@ -43,7 +43,7 @@ Exemplo de novo pedido:
 
 | Método | Caminho | O que faz |
 |---|---|---|
-| GET | `/api/pedidos` | Pedidos ativos ordenados pela folga, com anel, fatia, folga, classificação e rota |
+| GET | `/api/pedidos` | Pedidos ativos ordenados pela folga, com número do dia, anel, fatia, folga, classificação e rota |
 | POST | `/api/pedidos` | Cadastro manual (mesmo contrato; a origem vira `MANUAL`) |
 | POST | `/api/pedidos/:id/pronto` | `{ pronto: true \| false }` marca ou desmarca como pronto |
 | POST | `/api/pedidos/:id/cancelar` | Cancela o pedido |

@@ -2,14 +2,19 @@ import { useMemo } from 'react';
 import L from 'leaflet';
 import { Circle, MapContainer, Marker, Polyline, TileLayer, Tooltip, useMapEvents } from 'react-leaflet';
 import { pontoADistancia } from '../geo';
-import { URGENCIA, STATUS, ICONE_PLATAFORMA, formatarFolga, setor, hora } from '../formatar';
+import { URGENCIA, STATUS, formatarFolga, setor, hora, numeroPedido, codigoPlataforma } from '../formatar';
 
 const FATIAS = ['N', 'NE', 'L', 'SE', 'S', 'SO', 'O', 'NO'];
 
 const iconePizzaria = L.divIcon({ className: '', html: '<div class="pino-pizzaria">🍕</div>', iconSize: null });
 
-// Pino do pedido (RF04): ícone da plataforma, código e urgência com símbolo e
-// texto (RNF02). Em preparo fica esmaecido; entrega pela plataforma tem outro formato.
+// O pino é HTML montado à mão; código e plataforma vêm da fonte do pedido.
+const escaparHtml = (texto) =>
+  String(texto).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+// Pino do pedido (RF04): número do dia em destaque (RN28), código e plataforma
+// logo abaixo, e a urgência com símbolo e texto (RNF02). Em preparo fica
+// esmaecido; entrega pela plataforma tem outro formato.
 function iconeDoPedido(pedido, { selecionado, corRota }) {
   const u = URGENCIA[pedido.classificacao];
   const classes = [
@@ -24,8 +29,8 @@ function iconeDoPedido(pedido, { selecionado, corRota }) {
     className: '',
     iconSize: null,
     html: `<div class="${classes}" ${borda}>
-      <span class="pino-plataforma-icone">${ICONE_PLATAFORMA(pedido.plataforma)}</span>
-      <b>${pedido.codigoExibicao}</b>
+      <b class="pino-numero">${numeroPedido(pedido)}</b>
+      <span class="pino-codigo">${escaparHtml(codigoPlataforma(pedido))}</span>
       <span>${u.simbolo} ${formatarFolga(pedido.folga)}</span>
     </div>`,
   });
@@ -127,9 +132,7 @@ export default function Mapa({
           eventHandlers={{ click: () => aoClicarPino(pedido) }}
         >
           <Tooltip direction="top" offset={[0, -20]}>
-            <strong>
-              {pedido.plataforma} {pedido.codigoExibicao}
-            </strong>{' '}
+            <strong>{numeroPedido(pedido)}</strong> · {codigoPlataforma(pedido)}{' '}
             · {STATUS[pedido.status]}
             <br />
             {pedido.endereco}

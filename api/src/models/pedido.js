@@ -1,4 +1,19 @@
+const { QueryTypes } = require('sequelize');
 const { STATUS_PEDIDO, TIPO_ENTREGA, FATIAS } = require('../nucleo/constantes');
+const { diaOperacional } = require('../nucleo/contador');
+
+// Próximo número do contador do dia (RN28). Um único comando lê e incrementa o
+// contador, então dois pedidos simultâneos nunca pegam o mesmo número.
+async function proximoNumeroDoDia(sequelize, dia, transaction) {
+  const [linha] = await sequelize.query(
+    `INSERT INTO contadores_pedidos (dia_operacional, ultimo_numero) VALUES (:dia, 1)
+     ON CONFLICT (dia_operacional)
+     DO UPDATE SET ultimo_numero = contadores_pedidos.ultimo_numero + 1
+     RETURNING ultimo_numero`,
+    { replacements: { dia }, type: QueryTypes.SELECT, transaction },
+  );
+  return linha.ultimo_numero;
+}
 
 module.exports = (sequelize, DataTypes) => {
   const Pedido = sequelize.define(
@@ -7,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       plataforma: { type: DataTypes.STRING, allowNull: false, validate: { notEmpty: true } },
       codigoExibicao: { type: DataTypes.STRING, allowNull: false, validate: { notEmpty: true } },
       origem: { type: DataTypes.STRING, allowNull: false, validate: { notEmpty: true } },
+
+      // Contador do dia (RN28): "#8" na tela. Preenchido sozinho ao criar o pedido.
+      diaOperacional: { type: DataTypes.DATEONLY, allowNull: false },
+      numeroDoDia: { type: DataTypes.INTEGER, allowNull: false, validate: { min: 1 } },
 
       // Podem virar null quando o prazo de retenção vence (RN20).
       clienteNome: { type: DataTypes.STRING, allowNull: true },
@@ -39,7 +58,19 @@ module.exports = (sequelize, DataTypes) => {
       horarioEntrega: { type: DataTypes.DATE, allowNull: true },
       motivoProblema: { type: DataTypes.TEXT, allowNull: true },
     },
-    { tableName: 'pedidos' },
+    {
+      tableName: 'pedidos',
+      hooks: {
+        // Todo pedido novo ganha o próximo número do dia, venha de onde vier
+        // (porta de entrada, cadastro manual, testes). Roda antes da validação
+        // porque os dois campos são obrigatórios.
+        async beforeValidate(pedido, opcoes) {
+          if (!pedido.isNewRecord || pedido.numeroDoDia) return;
+          pedido.diaOperacional = pedido.diaOperacional || diaOperacional(new Date());
+          pedido.numeroDoDia = await proximoNumeroDoDia(sequelize, pedido.diaOperacional, opcoes.transaction);
+        },
+      },
+    },
   );
 
   Pedido.associate = (models) => {

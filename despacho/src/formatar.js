@@ -37,9 +37,8 @@ export const setor = (p) => (p.foraDaArea ? 'Fora da área' : `Anel ${p.anel} ·
 const CORES_ROTAS = ['#1565c0', '#6a1b9a', '#00838f', '#ad1457', '#4e342e', '#283593', '#558b2f', '#f9a825'];
 export const corDaRota = (indice) => CORES_ROTAS[indice % CORES_ROTAS.length];
 
-export const ICONE_PLATAFORMA = (plataforma) => {
-  const p = plataforma.toLowerCase();
-  if (p.includes('ifood')) return 'iF';
-  if (p.includes('99')) return '99';
-  return plataforma.slice(0, 2).toUpperCase();
-};
+// RN28: o pedido é identificado pelo contador do dia ("#8"); o código e a
+// plataforma ficam como informação complementar ("2365 · iFood").
+export const numeroPedido = (p) => `#${p.numeroDoDia}`;
+export const codigoPlataforma = (p) => `${p.codigoExibicao} · ${p.plataforma}`;
+export const rotuloPedido = (p) => `${numeroPedido(p)} (${codigoPlataforma(p)})`;

@@ -13,7 +13,10 @@ function apiFalsa({ modoDemonstracao = true } = {}) {
     if (caminho === '/entrada/configuracao') {
       return json(200, { latitudePizzaria: -22.9099, longitudePizzaria: -47.0526, raioMaximoKm: 8, modoDemonstracao });
     }
-    if (caminho === '/entrada/pedidos') return json(201, { id: proximoId++, foraDaArea: false });
+    if (caminho === '/entrada/pedidos') {
+      const id = proximoId++;
+      return json(201, { id, numeroDoDia: id, foraDaArea: false });
+    }
     return json(204);
   };
   return { chamadas, buscar };

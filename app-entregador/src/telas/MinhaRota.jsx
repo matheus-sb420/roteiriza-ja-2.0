@@ -78,7 +78,7 @@ export default function MinhaRota({ aoSair }) {
                   <span className="numero">{p.ordem}</span>
                   <div>
                     <strong>
-                      {p.plataforma} {p.codigoExibicao}
+                      #{p.numeroDoDia} <small>{p.codigoExibicao} · {p.plataforma}</small>
                     </strong>
                     <div className="endereco">{p.endereco}</div>
                   </div>

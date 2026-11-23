@@ -326,8 +326,13 @@ label.seletor {
   box-shadow: 0 1px 4px rgb(0 0 0 / 40%);
   cursor: pointer;
 }
-.pino b {
-  font-size: 12px;
+.pino-numero {
+  font-size: 14px;
+  line-height: 1.1;
+}
+.pino-codigo {
+  font-size: 10px;
+  opacity: 0.9;
 }
 .pino-atrasado {
   background: var(--atrasado);
@@ -342,10 +347,6 @@ label.seletor {
   border-radius: 0;
   border-style: dashed;
   border-color: #222;
-}
-.pino-plataforma-icone {
-  font-size: 9px;
-  opacity: 0.85;
 }
 .pino.selecionado {
   outline: 3px solid #fdd835;

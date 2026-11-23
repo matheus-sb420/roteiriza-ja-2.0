@@ -45,7 +45,7 @@ Ao terminar uma etapa, marcar o checklist no `README.md`.
 Este repositório é a versão 2.0; a 1.0 fica intocada na tag `v1.0` e no
 repositório original. Etapas da 2.0, uma por commit (ou poucos commits):
 
-1. Contador de pedidos do dia
+1. Contador de pedidos do dia ✅
 2. Interface mais limpa
 3. Pedidos de qualquer plataforma (iFood e 99Food primeiro)
 
@@ -132,7 +132,11 @@ responde 409 com `detalhes.precisaConfirmar` e a tela reenvia com
 
 - Tabelas: `configuracoes` (1 linha), `administradores`, `entregadores`,
   `pedidos`, `rotas`, `paradas` (liga rota e pedido com `ordem` e
-  `tentativas_codigo`).
+  `tentativas_codigo`) e `contadores_pedidos` (último número de cada dia).
+- Contador do dia (RN28): todo pedido novo recebe `numeroDoDia` num hook do
+  model `Pedido`, por um `INSERT … ON CONFLICT … RETURNING` atômico. O dia vem de
+  `nucleo/contador.js` (virada às 6h, horário de São Paulo). Nas telas o pedido
+  é "#8", com código e plataforma como informação complementar.
 - Status são `STRING` com `CHECK` no banco e `isIn` no model, usando as
   constantes de `src/nucleo/constantes.js` (não usar ENUM do Postgres: é
   difícil de alterar depois).

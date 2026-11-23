@@ -26,7 +26,7 @@ async function registrarPedido(dados) {
   const config = await obterConfiguracao();
   const { anel, fatia, foraDaArea } = calcularSetor(dados, config);
   const pedido = await Pedido.create({ ...dados, anel, fatia });
-  return { id: pedido.id, anel, fatia, foraDaArea };
+  return { id: pedido.id, numeroDoDia: pedido.numeroDoDia, anel, fatia, foraDaArea };
 }
 
 async function garantirOrigem(id, origem) {
@@ -47,11 +47,17 @@ async function paradaAberta(pedidoId, transacao) {
   });
 }
 
+// Como o pedido é citado em mensagens: "#8 (iFood 2365)" (RN28).
+function identificar(pedido) {
+  return `#${pedido.numeroDoDia} (${pedido.plataforma} ${pedido.codigoExibicao})`;
+}
+
 // Formato usado pelas telas: dados do pedido + setor, folga e classificação.
 function apresentarPedido(pedido, config, agora, rotaId = null) {
   const avaliacao = avaliarPedido(pedido, agora, config);
   return {
     id: pedido.id,
+    numeroDoDia: pedido.numeroDoDia,
     plataforma: pedido.plataforma,
     codigoExibicao: pedido.codigoExibicao,
     origem: pedido.origem,
@@ -164,6 +170,7 @@ module.exports = {
   registrarPedido,
   garantirOrigem,
   paradaAberta,
+  identificar,
   apresentarPedido,
   listarPedidosAtivos,
   marcarPronto,

@@ -10,7 +10,7 @@ const {
 const { sugerirRotas } = require('../nucleo/sugestao');
 const { calcularSetor } = require('../nucleo/setor');
 const { obterConfiguracao } = require('./configuracao');
-const { apresentarPedido } = require('./pedidos');
+const { apresentarPedido, identificar } = require('./pedidos');
 const portaSaida = require('../portas/saida');
 const { ErroNegocio, naoEncontrado } = require('../erros');
 
@@ -126,14 +126,14 @@ async function validarPedidosDaRota(pedidoIds, transacao, rotaId = null) {
   const ocupados = await pedidosEmRotasAbertas(transacao, rotaId);
   for (const pedido of pedidos) {
     if (pedido.tipoEntrega === TIPO_ENTREGA.PLATAFORMA) {
-      throw new ErroNegocio(422, `Pedido ${pedido.codigoExibicao} é entregue pela plataforma (RN04)`);
+      throw new ErroNegocio(422, `Pedido ${identificar(pedido)} é entregue pela plataforma (RN04)`);
     }
     // RN06: rota manual aceita pedidos em preparo; o aviso vem no despacho.
     if (![STATUS_PEDIDO.EM_PREPARO, STATUS_PEDIDO.PRONTO].includes(pedido.status)) {
-      throw new ErroNegocio(409, `Pedido ${pedido.codigoExibicao} está "${pedido.status}"`);
+      throw new ErroNegocio(409, `Pedido ${identificar(pedido)} está "${pedido.status}"`);
     }
     if (ocupados.has(pedido.id)) {
-      throw new ErroNegocio(409, `Pedido ${pedido.codigoExibicao} já está em outra rota (RN15)`);
+      throw new ErroNegocio(409, `Pedido ${identificar(pedido)} já está em outra rota (RN15)`);
     }
   }
   // Devolve na mesma ordem dos IDs recebidos.
@@ -222,10 +222,14 @@ async function despachar(rotaId, { entregadorId, confirmado = false }, agora = n
     if (emPreparo.length > 0 && !confirmado) {
       throw new ErroNegocio(409, 'Há pedidos que ainda não estão prontos', {
         precisaConfirmar: true,
-        naoProntos: emPreparo.map((p) => p.codigoExibicao),
+        naoProntos: emPreparo.map(identificar),
         pedidos: pedidos.map((p) => {
-          const { codigoExibicao, status, folga, classificacao } = apresentarPedido(p, config, agora);
-          return { codigoExibicao, status, folga, classificacao };
+          const { numeroDoDia, plataforma, codigoExibicao, status, folga, classificacao } = apresentarPedido(
+            p,
+            config,
+            agora,
+          );
+          return { numeroDoDia, plataforma, codigoExibicao, status, folga, classificacao };
         }),
       });
     }

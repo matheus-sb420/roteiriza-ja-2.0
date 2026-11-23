@@ -45,9 +45,10 @@ class Simulador {
 
   async criarPedido(config, agora = new Date()) {
     const { contrato, segredo } = gerarPedido(this.parametros, config, agora, this.sortear);
-    const { id, foraDaArea } = await this.chamarEntrada('POST', '/pedidos', contrato);
+    const { id, numeroDoDia, foraDaArea } = await this.chamarEntrada('POST', '/pedidos', contrato);
     this.pedidos.set(id, {
       id,
+      numeroDoDia,
       plataforma: contrato.plataforma,
       codigoExibicao: contrato.codigoExibicao,
       endereco: contrato.endereco,
@@ -58,7 +59,7 @@ class Simulador {
       foraDaArea,
       ...segredo,
     });
-    this.anotar(`Novo pedido ${contrato.plataforma} ${contrato.codigoExibicao} (#${id})`);
+    this.anotar(`Novo pedido #${numeroDoDia} (${contrato.plataforma} ${contrato.codigoExibicao})`);
     return this.pedidos.get(id);
   }
 
@@ -70,16 +71,22 @@ class Simulador {
     return criados;
   }
 
+  // Nos registros o pedido aparece como no despacho: pelo número do dia (RN28).
+  rotulo(id) {
+    const pedido = this.pedidos.get(id);
+    return pedido && pedido.numeroDoDia ? `#${pedido.numeroDoDia}` : `(ID ${id})`;
+  }
+
   async marcarPronto(id) {
     await this.chamarEntrada('POST', `/pedidos/${id}/pronto`, { origem: 'SIMULADOR' });
     this.pedidos.get(id).status = 'pronto';
-    this.anotar(`Pedido #${id} pronto`);
+    this.anotar(`Pedido ${this.rotulo(id)} pronto`);
   }
 
   async cancelar(id) {
     await this.chamarEntrada('POST', `/pedidos/${id}/cancelado`, { origem: 'SIMULADOR' });
     this.pedidos.get(id).status = 'cancelado';
-    this.anotar(`Pedido #${id} cancelado pelo cliente`);
+    this.anotar(`Pedido ${this.rotulo(id)} cancelado pelo cliente`);
   }
 
   // Executado a cada poucos segundos: novos pedidos, "pronto" automático e cancelamentos.
@@ -95,9 +102,9 @@ class Simulador {
     for (const pedido of this.pedidos.values()) {
       const aberto = ['em_preparo', 'pronto'].includes(pedido.status);
       if (aberto && pedido.cancelarEm && pedido.cancelarEm <= agora) {
-        await this.cancelar(pedido.id).catch((e) => this.anotar(`Falha ao cancelar #${pedido.id}: ${e.message}`));
+        await this.cancelar(pedido.id).catch((e) => this.anotar(`Falha ao cancelar ${this.rotulo(pedido.id)}: ${e.message}`));
       } else if (this.parametros.autoPronto && pedido.status === 'em_preparo' && pedido.prontoEm <= agora) {
-        await this.marcarPronto(pedido.id).catch((e) => this.anotar(`Falha ao marcar #${pedido.id}: ${e.message}`));
+        await this.marcarPronto(pedido.id).catch((e) => this.anotar(`Falha ao marcar ${this.rotulo(pedido.id)}: ${e.message}`));
       }
     }
   }
@@ -107,25 +114,25 @@ class Simulador {
   pedidoEmRota({ pedidoId }) {
     const pedido = this.pedidos.get(pedidoId);
     if (pedido) pedido.status = 'em_rota';
-    this.anotar(`Pedido #${pedidoId} saiu para entrega`);
+    this.anotar(`Pedido ${this.rotulo(pedidoId)} saiu para entrega`);
   }
 
   pedidoEntregue({ pedidoId }) {
     const pedido = this.pedidos.get(pedidoId);
     if (pedido) pedido.status = 'entregue';
-    this.anotar(`Pedido #${pedidoId} entregue`);
+    this.anotar(`Pedido ${this.rotulo(pedidoId)} entregue`);
   }
 
   // Responde como uma plataforma faria. "foraDoAr" simula a plataforma sem
   // resposta, para testar a regra das 3 tentativas (RN24).
   validarCodigo({ pedidoId, codigo }) {
     if (this.parametros.foraDoAr) {
-      this.anotar(`Validação do #${pedidoId} recusada: plataforma fora do ar`);
+      this.anotar(`Validação do ${this.rotulo(pedidoId)} recusada: plataforma fora do ar`);
       return null;
     }
     const pedido = this.pedidos.get(pedidoId);
     const valido = Boolean(pedido) && pedido.codigoCliente === String(codigo);
-    this.anotar(`Código do #${pedidoId} ${valido ? 'válido' : 'inválido'}`);
+    this.anotar(`Código do ${this.rotulo(pedidoId)} ${valido ? 'válido' : 'inválido'}`);
     return { valido };
   }
 

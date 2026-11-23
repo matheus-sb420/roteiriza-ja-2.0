@@ -183,7 +183,8 @@ Dicas para a apresentação:
 | `configuracoes` | Uma linha: endereço e coordenadas da pizzaria, raio máximo, tempo por anel, limite de crítico, prazo LGPD, modo demonstração |
 | `administradores` | Login do sistema de despacho (senha com hash) |
 | `entregadores` | Nome, telefone (login do app), hash do PIN e situação |
-| `pedidos` | Dados do contrato do pedido, setor (anel e fatia), status e horários de pronto/entrega |
+| `pedidos` | Dados do contrato do pedido, número do dia (#1, #2…), setor (anel e fatia), status e horários de pronto/entrega |
+| `contadores_pedidos` | Último número usado em cada dia de operação (o contador reinicia às 6h) |
 | `rotas` | Origem (sugerida/manual), status, entregador e horários de saída/conclusão |
 | `paradas` | Liga rota e pedido, com a ordem de entrega e as tentativas de código |
 
@@ -207,7 +208,7 @@ Cada etapa vai num commit separado, com a explicação do que foi feito e por qu
 
 Mudanças para levar o sistema a uma operação real, uma por vez:
 
-- [ ] **1. Contador de pedidos do dia** — o pedido passa a ser "#8" na tela,
+- [x] **1. Contador de pedidos do dia** — o pedido passa a ser "#8" na tela,
   com o código e a plataforma logo abaixo
 - [ ] **2. Interface mais limpa** no despacho e no app do entregador
 - [ ] **3. Pedidos de qualquer plataforma**, a começar por iFood e 99Food

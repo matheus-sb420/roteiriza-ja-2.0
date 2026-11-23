@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { api } from '../api';
 import { usePolling } from '../usePolling';
-import { corDaRota } from '../formatar';
+import { corDaRota, rotuloPedido } from '../formatar';
 import Mapa from '../componentes/Mapa';
 import Legenda from '../componentes/Legenda';
 import ListaPedidos from '../componentes/ListaPedidos';
@@ -109,7 +109,7 @@ export default function Despacho() {
         } catch (e) {
           if (!e.detalhes?.precisaConfirmar) throw e;
           const resumo = e.detalhes.pedidos
-            .map((p) => `• ${p.codigoExibicao}: ${p.status === 'em_preparo' ? 'EM PREPARO' : 'pronto'}, folga ${p.folga} min`)
+            .map((p) => `• ${rotuloPedido(p)}: ${p.status === 'em_preparo' ? 'EM PREPARO' : 'pronto'}, folga ${p.folga} min`)
             .join('\n');
           const ok = window.confirm(`Há pedidos que ainda não estão prontos:\n\n${resumo}\n\nDespachar mesmo assim?`);
           if (ok) {
@@ -135,7 +135,7 @@ export default function Despacho() {
   }
 
   function cancelarPedido(pedido) {
-    if (window.confirm(`Cancelar o pedido ${pedido.plataforma} ${pedido.codigoExibicao}?`)) {
+    if (window.confirm(`Cancelar o pedido ${rotuloPedido(pedido)}?`)) {
       executar(() => api(`/api/pedidos/${pedido.id}/cancelar`, { metodo: 'POST' }));
     }
   }

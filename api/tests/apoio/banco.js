@@ -20,7 +20,7 @@ const CENTRO = { latitude: CONFIG_PADRAO.latitudePizzaria, longitude: CONFIG_PAD
 
 async function limparBanco() {
   await sequelize.query(
-    'TRUNCATE paradas, rotas, pedidos, entregadores, administradores, configuracoes RESTART IDENTITY CASCADE',
+    'TRUNCATE paradas, rotas, pedidos, contadores_pedidos, entregadores, administradores, configuracoes RESTART IDENTITY CASCADE',
   );
   await Configuracao.create(CONFIG_PADRAO);
 }

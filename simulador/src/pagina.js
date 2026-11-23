@@ -93,7 +93,7 @@ module.exports = `<!doctype html>
     $('alternar').className = e.rodando ? 'perigo' : 'primario';
     if (!carregouForm) { preencherForm(e.parametros); carregouForm = true; }
     $('pedidos').innerHTML = e.pedidos.map((p) => '<tr>' +
-      '<td>' + p.id + '</td><td>' + p.plataforma + (p.tipoEntrega === 'plataforma' ? ' (entrega pela plataforma)' : '') + '</td>' +
+      '<td>' + (p.numeroDoDia ? '#' + p.numeroDoDia : '—') + '</td><td>' + p.plataforma + (p.tipoEntrega === 'plataforma' ? ' (entrega pela plataforma)' : '') + '</td>' +
       '<td>' + p.codigoExibicao + '</td>' +
       '<td class="codigo">' + (p.exigeCodigo ? p.codigoCliente : '—') + '</td>' +
       '<td>' + p.endereco + '</td><td><span class="selo">' + NOMES[p.status] + '</span></td>' +

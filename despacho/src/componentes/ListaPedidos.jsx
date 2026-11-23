@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { URGENCIA, STATUS, formatarFolga, setor, hora } from '../formatar';
+import { URGENCIA, STATUS, formatarFolga, setor, hora, numeroPedido, codigoPlataforma } from '../formatar';
 
 const FILTROS = [
   ['ativos', 'Todos'],
@@ -53,7 +53,7 @@ export default function ListaPedidos({ pedidos, selecionados, aoAlternarSelecao,
               </span>
               <div className="item-info">
                 <strong>
-                  {p.plataforma} {p.codigoExibicao}
+                  {numeroPedido(p)} <small>{codigoPlataforma(p)}</small>
                 </strong>
                 <small>
                   {setor(p)} · prometido {hora(p.horarioPrometido)}
