@@ -14,6 +14,7 @@ const models = {
   Pedido: require('./pedido')(sequelize, DataTypes),
   Rota: require('./rota')(sequelize, DataTypes),
   Parada: require('./parada')(sequelize, DataTypes),
+  PosicaoEntregador: require('./posicao-entregador')(sequelize, DataTypes),
 };
 
 Object.values(models).forEach((model) => {

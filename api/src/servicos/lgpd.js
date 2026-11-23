@@ -3,6 +3,7 @@
 const { Pedido, Sequelize } = require('../models');
 const { STATUS_PEDIDO } = require('../nucleo/constantes');
 const { obterConfiguracao } = require('./configuracao');
+const { apagarPosicoesVencidas } = require('./rastreio');
 
 const { Op } = Sequelize;
 const MS_POR_DIA = 24 * 60 * 60 * 1000;
@@ -29,4 +30,10 @@ async function apagarDadosVencidos(agora = new Date()) {
   return quantidade;
 }
 
-module.exports = { apagarDadosVencidos };
+// RN29: a localização dos entregadores segue o mesmo prazo dos dados dos clientes.
+async function apagarLocalizacoesVencidas(agora = new Date()) {
+  const config = await obterConfiguracao();
+  return apagarPosicoesVencidas(config.prazoRetencaoDias, agora);
+}
+
+module.exports = { apagarDadosVencidos, apagarLocalizacoesVencidas };

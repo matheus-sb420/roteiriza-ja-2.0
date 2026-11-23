@@ -127,6 +127,20 @@ O `npm run iniciar` mostra também o endereço para abrir o app **no celular**
 (mesma rede Wi-Fi do computador). As telas descobrem sozinhas onde está a API,
 então não é preciso editar nenhum `.env` para isso.
 
+**Localização do entregador e HTTPS.** O navegador só libera a localização
+em endereço seguro: `https://…` ou `localhost`. Pelo endereço da rede Wi-Fi
+(`http://192.168.…:5174`) o app funciona, mas mostra que a localização precisa
+de https. Para testar no celular:
+
+- **Android/Chrome:** abra `chrome://flags/#unsafely-treat-insecure-origin-as-secure`,
+  coloque o endereço do app (ex.: `http://192.168.0.10:5174`), ative e reinicie o Chrome.
+- **Qualquer celular:** use um túnel com https, como `cloudflared tunnel --url http://localhost:5174`
+  (e outro para a API na porta 3000, apontado em `VITE_API_URL`).
+
+Em produção, o app e a API devem ficar num domínio com certificado (por
+exemplo, Let's Encrypt). O app só envia a posição com a tela ligada e o app
+aberto; por isso ele pede para manter a tela acesa durante a rota.
+
 ### Jeito manual (cada parte no seu terminal)
 
 ```bash
@@ -187,6 +201,7 @@ Dicas para a apresentação:
 | `contadores_pedidos` | Último número usado em cada dia de operação (o contador reinicia às 6h) |
 | `rotas` | Origem (sugerida/manual), status, entregador e horários de saída/conclusão |
 | `paradas` | Liga rota e pedido, com a ordem de entrega e as tentativas de código |
+| `posicoes_entregadores` | Pontos de localização enviados pelo app (entregador, rota, coordenadas, precisão, horário) |
 
 A folga não é gravada: depende do horário atual e é calculada na hora. O
 código que o cliente informa na entrega não tem coluna, porque nunca é guardado.
@@ -213,7 +228,7 @@ Mudanças para levar o sistema a uma operação real, uma por vez:
 - [x] **2. Interface mais limpa** no despacho e no app do entregador
 - [x] **3. Painel de pedidos**: total do dia e abas de atrasados, pendentes e
   cancelados, com contagem
-- [ ] **4. Geolocalização do entregador** e trajeto no mapa do despacho
+- [x] **4. Geolocalização do entregador** e trajeto no mapa do despacho
 - [ ] **5. Ícone do estabelecimento configurável** (pizza, hambúrguer, pastel, açaí…)
 - [ ] **6. Pedidos de qualquer plataforma**, a começar por iFood e 99Food
 
@@ -231,5 +246,5 @@ arquitetura e convenções seguidas durante o desenvolvimento.
 ## Fora do escopo (trabalhos futuros)
 
 Integração real com iFood/99Food/Rappi, conversão de endereço em coordenadas,
-GPS do entregador, verificação por SMS, distância e tempo pelas ruas, leitura de
+localização do entregador em segundo plano (exige app nativo), verificação por SMS, distância e tempo pelas ruas, leitura de
 QR code na comanda, previsão do tempo de preparo e relatórios históricos.

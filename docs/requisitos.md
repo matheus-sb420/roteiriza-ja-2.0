@@ -180,6 +180,7 @@ pedidos que exigem atenção.
 | RN26 | A rota é concluída automaticamente quando todas as paradas estão entregues, pendentes ou canceladas. O entregador volta a "disponível". |
 | RN27 | O entregador vê no app apenas a rota atribuída a ele. |
 | RN28 | Cada pedido recebe, ao entrar no sistema, um número sequencial do dia (#1, #2, #3…), que é a identificação principal nas telas. O pino mostra o número em destaque e, abaixo, o código e a plataforma (ex.: "#8 / 2365 · iFood"). O contador reinicia a cada dia de operação, com virada às 6h (horário de São Paulo), e nunca repete um número no mesmo dia. |
+| RN29 | Com a permissão do entregador, o app envia a localização dele enquanto está aberto (no máximo a cada 15 s, ou ao andar 30 m; parado, a cada 30 s). Pontos com precisão pior que 100 m são descartados e, fora de serviço, nada é gravado. O despacho mostra o entregador com sinal nos últimos 30 min ("ao vivo" até 2 min) e o trajeto percorrido na rota atual. As posições seguem o prazo de retenção da LGPD (RN20). |
 
 ## 6. Algoritmo de sugestão de rotas
 
@@ -258,6 +259,7 @@ RF01–RF21: sistema de despacho. RF22–RF27: app do entregador.
 | RF26 | Confirmar com o botão "Entregue" pedidos que não exigem código | Essencial | RN23 |
 | RF27 | Após 3 códigos inválidos ou sem resposta, marcar pendente e mostrar "Chamar atendente" | Essencial | RN24 |
 | RF28 | Mostrar o total de pedidos do dia e separar, em abas com contagem, os pedidos atrasados (própria e plataforma), as entregas pendentes de confirmação e os cancelados do dia | Essencial | RN08, RN18, RN24, RN28 |
+| RF29 | Pedir a permissão de localização no app e mostrar no mapa do despacho cada entregador (pino de motoboy) e o trajeto da rota em andamento | Desejável | RN29 |
 
 ## 8. Requisitos não funcionais
 
@@ -276,6 +278,7 @@ RF01–RF21: sistema de despacho. RF22–RF27: app do entregador.
 | RNF11 | Manutenibilidade | O núcleo não depende de nenhuma fonte de pedidos específica |
 | RNF12 | Manutenibilidade | O algoritmo de sugestão tem testes automatizados com cenários conhecidos |
 | RNF13 | Custo | Base cartográfica gratuita |
+| RNF14 | Segurança | O app do entregador é servido por HTTPS em produção: sem endereço seguro, o navegador não libera a localização (RN29) |
 
 ## 9. Arquitetura de integração
 
@@ -408,7 +411,8 @@ de horários.
 Pedidos de simulador e cadastro manual; validação de código depende de cada
 plataforma; coordenadas por clique no mapa; distância em linha reta;
 compatibilidade só com a âncora; "pronto" marcado pela atendente; tempo de
-trajeto fixo por anel; sem localização do entregador; login sem SMS.
+trajeto fixo por anel; localização do entregador só com o app aberto na tela
+(é um app web: o navegador não envia a posição em segundo plano); login sem SMS.
 
 ## Apêndice A – Simulador de pedidos
 

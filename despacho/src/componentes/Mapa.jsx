@@ -36,6 +36,22 @@ function iconeDoPedido(pedido, { selecionado, corRota }) {
   });
 }
 
+// Entregador no mapa (RN29): pino pequeno de motoboy, com o nome embaixo e a
+// borda na cor da rota. Sem sinal há mais de 2 min, fica esmaecido.
+function iconeDoEntregador(loc, corRota) {
+  const borda = corRota ? `style="border-color: ${corRota}"` : '';
+  return L.divIcon({
+    className: '',
+    iconSize: null,
+    html: `<div class="pino-entregador ${loc.sinal === 'sem_sinal' ? 'sem-sinal' : ''}">
+      <span class="pino-entregador-icone" ${borda}>🛵</span>
+      <span class="pino-entregador-nome">${escaparHtml(loc.nome)}</span>
+    </div>`,
+  });
+}
+
+const minutosDesde = (horario, agora) => Math.max(0, Math.round((new Date(agora) - new Date(horario)) / 60000));
+
 function CapturaClique({ ativo, aoClicar }) {
   useMapEvents({
     click(evento) {
@@ -97,6 +113,8 @@ export default function Mapa({
   localCadastro,
   aoClicarMapa,
   aoClicarPino,
+  localizacoes = [],
+  agora,
 }) {
   const centro = useMemo(
     () => [configuracao.latitudePizzaria, configuracao.longitudePizzaria],
@@ -140,6 +158,34 @@ export default function Mapa({
             {setor(pedido)} · {pedido.distanciaKm} km
             <br />
             Prometido {hora(pedido.horarioPrometido)} · folga {formatarFolga(pedido.folga)}
+          </Tooltip>
+        </Marker>
+      ))}
+
+      {/* Trajeto percorrido na rota atual: pontilhado, na cor da rota (RN29). */}
+      {localizacoes
+        .filter((loc) => loc.trajeto.length > 1)
+        .map((loc) => (
+          <Polyline
+            key={`trajeto-${loc.entregadorId}`}
+            positions={loc.trajeto}
+            pathOptions={{ color: coresPorRota[loc.rotaId] || '#455a64', weight: 3, opacity: 0.9, dashArray: '1 6' }}
+          />
+        ))}
+
+      {localizacoes.map((loc) => (
+        <Marker
+          key={`entregador-${loc.entregadorId}`}
+          position={[loc.latitude, loc.longitude]}
+          icon={iconeDoEntregador(loc, loc.rotaId ? coresPorRota[loc.rotaId] : null)}
+          zIndexOffset={1000}
+        >
+          <Tooltip direction="top" offset={[0, -18]}>
+            <strong>{loc.nome}</strong>
+            {loc.rotaId ? ` · rota #${loc.rotaId}` : ' · sem rota'}
+            <br />
+            {loc.sinal === 'ao_vivo' ? 'Ao vivo' : `Sem sinal há ${minutosDesde(loc.registradaEm, agora)} min`}
+            {loc.precisaoM != null && ` · precisão ${Math.round(loc.precisaoM)} m`}
           </Tooltip>
         </Marker>
       ))}

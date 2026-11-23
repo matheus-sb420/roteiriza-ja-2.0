@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api } from '../api';
 import ConfirmarEntrega from './ConfirmarEntrega';
+import AvisoLocalizacao from './AvisoLocalizacao';
+import { useLocalizacao } from '../useLocalizacao';
 
 const INTERVALO_MS = 5000;
 
@@ -19,6 +21,7 @@ const linkWaze = (p) => `https://waze.com/ul?ll=${p.latitude},${p.longitude}&nav
 export default function MinhaRota({ aoSair }) {
   const [dados, setDados] = useState(null);
   const [aviso, setAviso] = useState(null);
+  const localizacao = useLocalizacao();
 
   const carregar = useCallback(async () => {
     try {
@@ -58,6 +61,7 @@ export default function MinhaRota({ aoSair }) {
           Sair
         </button>
       </header>
+      <AvisoLocalizacao situacao={localizacao.situacao} aoPermitir={localizacao.iniciar} />
 
       {aviso && (
         <div className={`mensagem ${aviso.tipo}`} onClick={() => setAviso(null)}>

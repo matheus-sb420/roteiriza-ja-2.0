@@ -48,7 +48,7 @@ repositório original. Etapas da 2.0, uma por commit (ou poucos commits):
 1. Contador de pedidos do dia ✅
 2. Interface mais limpa ✅
 3. Painel de pedidos: total do dia e abas de atrasados, pendentes e cancelados ✅
-4. Geolocalização do entregador e trajeto no mapa
+4. Geolocalização do entregador e trajeto no mapa ✅
 5. Ícone do estabelecimento configurável (pizza, hambúrguer, pastel, açaí…)
 6. Pedidos de qualquer plataforma (iFood e 99Food primeiro)
 
@@ -125,6 +125,11 @@ Cada pasta é um projeto npm independente (sem workspaces), para que o
 - Rota concluída automaticamente quando todas as paradas estão entregues,
   pendentes ou canceladas; entregador volta a `disponível`.
 - Senhas e PINs sempre com hash (bcrypt).
+- **Localização (RN29)**: regras puras em `nucleo/rastreio.js` (validação,
+  precisão máxima de 100 m, sinal "ao vivo" até 2 min e oculto após 30 min,
+  simplificação do trajeto). Fora de serviço não grava. O app só envia com
+  a tela ligada, e a localização exige HTTPS (RNF14). As posições são apagadas
+  junto com a limpeza da LGPD.
 
 O algoritmo está em `api/src/nucleo/sugestao.js` e seus testes em
 `api/tests/nucleo/sugestao.test.js`, incluindo o exemplo da seção 6.5 (pedidos
@@ -139,7 +144,8 @@ responde 409 com `detalhes.precisaConfirmar` e a tela reenvia com
 
 - Tabelas: `configuracoes` (1 linha), `administradores`, `entregadores`,
   `pedidos`, `rotas`, `paradas` (liga rota e pedido com `ordem` e
-  `tentativas_codigo`) e `contadores_pedidos` (último número de cada dia).
+  `tentativas_codigo`), `contadores_pedidos` (último número de cada dia) e
+  `posicoes_entregadores` (pontos de localização do app, RN29).
 - Contador do dia (RN28): todo pedido novo recebe `numeroDoDia` num hook do
   model `Pedido`, por um `INSERT … ON CONFLICT … RETURNING` atômico. O dia vem de
   `nucleo/contador.js` (virada às 6h, horário de São Paulo). Nas telas o pedido

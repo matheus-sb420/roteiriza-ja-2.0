@@ -14,6 +14,7 @@ export default function Legenda({ limiteCriticoMin }) {
       ))}
       <span className="selo selo-esmaecido">Em preparo</span>
       <span className="selo selo-plataforma">Entrega pela plataforma</span>
+      <span className="selo">🛵 Entregador (pontilhado = trajeto)</span>
     </div>
   );
 }

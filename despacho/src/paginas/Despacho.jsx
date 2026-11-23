@@ -225,6 +225,8 @@ export default function Despacho() {
           localCadastro={localCadastro}
           aoClicarMapa={setLocalCadastro}
           aoClicarPino={clicarPino}
+          localizacoes={dados.localizacoes}
+          agora={dados.agora}
         />
         <p className="dica-mapa">
           Clique num pino <b>em preparo</b> para marcar como pronto; num pino <b>pronto</b> para selecioná-lo para uma

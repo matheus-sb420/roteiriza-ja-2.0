@@ -4,6 +4,7 @@ const { Router } = require('express');
 const { listarPedidosAtivos, listarCanceladosDoDia, resumoDoDia } = require('../servicos/pedidos');
 const { listarRotasAbertas } = require('../servicos/rotas');
 const { obterConfiguracao } = require('../servicos/configuracao');
+const { localizacoesAtuais } = require('../servicos/rastreio');
 const { indicadoresRapidos, indicadoresDaNoite } = require('../servicos/indicadores');
 const { Entregador } = require('../models');
 
@@ -11,13 +12,14 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   const agora = new Date();
-  const [config, pedidos, cancelados, resumo, rotas, entregadores] = await Promise.all([
+  const [config, pedidos, cancelados, resumo, rotas, entregadores, localizacoes] = await Promise.all([
     obterConfiguracao(),
     listarPedidosAtivos(agora),
     listarCanceladosDoDia(agora),
     resumoDoDia(agora),
     listarRotasAbertas(agora),
     Entregador.findAll({ order: [['nome', 'ASC']] }),
+    localizacoesAtuais(agora),
   ]);
   res.json({
     agora,
@@ -32,6 +34,7 @@ router.get('/', async (req, res) => {
     resumoDoDia: resumo,
     rotas,
     entregadores,
+    localizacoes,
     indicadores: indicadoresRapidos(pedidos, rotas),
   });
 });

@@ -48,7 +48,7 @@ Exemplo de novo pedido:
 | POST | `/api/pedidos/:id/pronto` | `{ pronto: true \| false }` marca ou desmarca como pronto |
 | POST | `/api/pedidos/:id/cancelar` | Cancela o pedido |
 | POST | `/api/pedidos/:id/resolver` | Pendente de confirmação: `{ entregue: true }` ou `{ motivo: "..." }` (RN25) |
-| GET | `/api/painel` | Tudo para a tela de despacho: configuração, pedidos ativos, cancelados do dia (`cancelados`), total por status do dia (`resumoDoDia: { total, porStatus }`), rotas, entregadores e indicadores rápidos |
+| GET | `/api/painel` | Tudo para a tela de despacho: configuração, pedidos ativos, cancelados do dia (`cancelados`), total por status do dia (`resumoDoDia: { total, porStatus }`), rotas, entregadores, localização dos entregadores (`localizacoes: [{ entregadorId, nome, latitude, longitude, precisaoM, registradaEm, sinal, rotaId, trajeto }]`) e indicadores rápidos |
 | GET | `/api/painel/indicadores` | Indicadores da noite (últimas 12 h, RF19) |
 | GET | `/api/configuracao` | Configuração atual |
 | PUT | `/api/configuracao` | Altera configuração (só os campos enviados) |
@@ -70,6 +70,7 @@ Exemplo de novo pedido:
 |---|---|---|
 | POST | `/app/login` | `{ telefone, pin }` → `{ token, nome }` |
 | GET | `/app/rota` | Rota despachada do entregador logado: `{ rota: { id, paradas: [...] }, paradaAtualId }` ou `{ rota: null }` |
+| POST | `/app/posicao` | `{ latitude, longitude, precisao? }` (precisão em metros) → `201 { gravada: true }` ou `202 { gravada: false, motivo: "precisao_baixa" \| "fora_de_servico" }` (RN29) |
 | POST | `/app/paradas/:pedidoId/confirmar` | `{ codigo }` (só se o pedido exige código) → `{ resultado: "entregue" \| "codigo_invalido" \| "pendente", tentativasRestantes?, rotaConcluida }` |
 
 ## Porta de saída (mensagens que a API envia às fontes)

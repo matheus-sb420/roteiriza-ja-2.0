@@ -444,6 +444,39 @@ button.selo {
   font-size: 28px;
   transform: translate(-50%, -50%);
 }
+/* Entregador no mapa (RN29): pequeno, para não competir com os pedidos. */
+.pino-entregador {
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+}
+.pino-entregador-icone {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  font-size: 15px;
+  background: #fff;
+  border: 2px solid var(--primaria);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 25%);
+}
+.pino-entregador-nome {
+  margin-top: 1px;
+  padding: 0 4px;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--texto);
+  background: rgb(255 255 255 / 85%);
+  border-radius: 3px;
+}
+.pino-entregador.sem-sinal {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
 .pino-novo {
   transform: translate(-50%, -100%);
   background: var(--primaria);

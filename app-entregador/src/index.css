@@ -173,6 +173,34 @@ input:focus {
   color: var(--texto-suave);
 }
 
+/* Situação da localização (RN29). */
+.localizacao {
+  margin: 0 0 0.75rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+.localizacao p {
+  margin: 0 0 0.6rem;
+}
+.localizacao-pedir {
+  background: #fff;
+  border: 2px solid var(--primaria);
+}
+.localizacao-ativa {
+  background: var(--primaria-clara);
+  color: var(--primaria-escura);
+}
+.localizacao-info {
+  background: #eceeec;
+  color: var(--texto-suave);
+}
+.localizacao-alerta {
+  background: var(--alerta-claro);
+  color: var(--alerta-texto);
+  border: 1px solid var(--alerta);
+}
+
 .paradas {
   list-style: none;
   margin: 0;
