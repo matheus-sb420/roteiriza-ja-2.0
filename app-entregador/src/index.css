@@ -1,31 +1,69 @@
-/* Pensado para uso com uma mão no celular (RNF04): botões grandes e texto legível. */
+/* App do entregador: uso com uma mão no celular (RNF04), botões grandes e
+   texto legível.
+
+   Versão 2.0:
+   - Tema verde e telas neutras, como o despacho. Vermelho só para erro.
+   - Responsivo: o texto e os espaços acompanham a largura da tela (do
+     celular pequeno ao tablet), respeita o entalhe e a barra de gestos
+     (safe-area) e tem ajustes para o celular deitado. */
 :root {
-  --primaria: #b71c1c;
-  --verde: #2e7d32;
-  --laranja: #ef6c00;
+  --primaria: #2e7d32;
+  --primaria-escura: #1b5e20;
+  --primaria-clara: #e8f3e9;
+  --erro: #c62828;
+  --erro-claro: #fdecea;
+  --alerta: #d98200;
+  --alerta-texto: #8a5300;
+  --alerta-claro: #fff4e0;
+  --texto: #1f2421;
+  --texto-suave: #6b716d;
+  --borda: #d5d9d6;
+  --fundo: #f6f7f6;
+
+  /* Espaçamento que cresce com a tela: 12px no celular pequeno, até 20px. */
+  --espaco: clamp(0.75rem, 3.5vw, 1.25rem);
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
-  font-size: 18px;
-  background: #f5f5f5;
-  color: #222;
+  /* 16px em telas de 360px ou menos, 18px a partir de ~430px. */
+  font-size: clamp(16px, 4.2vw, 18px);
+  line-height: 1.4;
+  background: var(--fundo);
+  color: var(--texto);
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a {
+  touch-action: manipulation;
 }
 
 .tela {
-  max-width: 560px;
+  width: 100%;
+  max-width: 640px;
+  min-height: 100dvh;
   margin: 0 auto;
-  padding: 1rem;
-  padding-bottom: 3rem;
+  /* safe-area: não deixa conteúdo atrás do entalhe nem da barra de gestos. */
+  padding: var(--espaco);
+  padding-left: max(var(--espaco), env(safe-area-inset-left));
+  padding-right: max(var(--espaco), env(safe-area-inset-right));
+  padding-bottom: calc(3rem + env(safe-area-inset-bottom));
 }
 
 h1 {
   margin: 0.25rem 0 1rem;
+  font-size: clamp(1.4rem, 6vw, 1.9rem);
 }
 
 .formulario {
@@ -42,26 +80,37 @@ label {
 }
 
 input {
+  width: 100%;
+  min-width: 0;
   font: inherit;
-  font-size: 1.3rem;
+  /* 16px ou mais evita o zoom automático do iPhone ao tocar no campo. */
+  font-size: max(16px, 1.3rem);
   padding: 0.8rem;
-  border: 2px solid #ccc;
+  border: 2px solid var(--borda);
   border-radius: 10px;
+  background: #fff;
+  color: var(--texto);
+}
+input:focus {
+  outline: none;
+  border-color: var(--primaria);
 }
 
 .botao-grande {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  min-height: 3.5rem;
-  padding: 0.9rem;
+  min-height: 3.25rem;
+  padding: 0.75rem;
   font: inherit;
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   text-align: center;
   text-decoration: none;
-  color: #222;
+  color: var(--texto);
   background: #fff;
-  border: 2px solid #ccc;
+  border: 2px solid var(--borda);
   border-radius: 12px;
 }
 .botao-grande.primario {
@@ -69,42 +118,59 @@ input {
   background: var(--primaria);
   border-color: var(--primaria);
 }
+.botao-grande.primario:active:not(:disabled) {
+  background: var(--primaria-escura);
+}
 .botao-grande:disabled {
   opacity: 0.5;
 }
 
+/* Cabeçalho fixo no topo ao rolar a lista de paradas. */
 .cabecalho {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.5rem;
+  margin: calc(-1 * var(--espaco)) calc(-1 * var(--espaco)) 0.75rem;
+  padding: var(--espaco);
+  padding-top: max(var(--espaco), env(safe-area-inset-top));
+  background: var(--fundo);
+  border-bottom: 1px solid var(--borda);
+}
+.cabecalho h1 {
+  margin: 0;
 }
 .sair {
   font: inherit;
+  padding: 0.5rem 0.75rem;
   background: none;
   border: none;
-  color: #666;
+  color: var(--texto-suave);
 }
 
 .mensagem {
   padding: 0.8rem;
   border-radius: 10px;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem;
 }
 .mensagem.erro {
-  background: #ffebee;
-  color: var(--primaria);
+  background: var(--erro-claro);
+  color: var(--erro);
 }
 .mensagem.sucesso {
-  background: #e8f5e9;
-  color: var(--verde);
+  background: var(--primaria-clara);
+  color: var(--primaria-escura);
 }
 .mensagem.alerta {
-  background: #fff3e0;
-  color: #8a4b00;
-  border: 2px solid var(--laranja);
+  background: var(--alerta-claro);
+  color: var(--alerta-texto);
+  border: 1px solid var(--alerta);
 }
 .vazio {
-  color: #666;
+  color: var(--texto-suave);
 }
 
 .paradas {
@@ -119,11 +185,10 @@ input {
   background: #fff;
   border-radius: 12px;
   padding: 0.8rem;
-  border: 2px solid transparent;
+  border: 1px solid var(--borda);
 }
 .parada.atual {
-  border-color: var(--primaria);
-  box-shadow: 0 2px 10px rgb(0 0 0 / 12%);
+  border: 2px solid var(--primaria);
 }
 .parada-entregue,
 .parada-cancelado,
@@ -135,8 +200,18 @@ input {
 }
 .parada-topo {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.75rem;
+}
+/* O bloco do texto pode encolher: endereços longos quebram a linha em vez de
+   empurrar a tela para o lado. */
+.parada-topo > div {
+  flex: 1;
+  min-width: 0;
+}
+.parada-topo strong small {
+  font-weight: 400;
+  color: var(--texto-suave);
 }
 .numero {
   flex: none;
@@ -145,7 +220,7 @@ input {
   width: 2.2rem;
   height: 2.2rem;
   border-radius: 50%;
-  background: #eee;
+  background: #eceeec;
   font-weight: 700;
 }
 .parada.atual .numero {
@@ -154,11 +229,12 @@ input {
 }
 .endereco {
   color: #444;
+  overflow-wrap: anywhere;
 }
 .etiqueta {
-  margin-left: auto;
+  flex: none;
   font-size: 0.8rem;
-  color: #666;
+  color: var(--texto-suave);
   text-align: right;
 }
 .navegar {
@@ -173,7 +249,48 @@ input {
   gap: 0.6rem;
 }
 .campo-codigo {
-  font-size: 2rem;
-  letter-spacing: 0.4rem;
+  font-size: clamp(1.6rem, 9vw, 2rem);
+  letter-spacing: clamp(0.2rem, 2vw, 0.4rem);
   text-align: center;
+}
+
+/* Celulares bem estreitos (até 340px): botões de navegação um embaixo do outro. */
+@media (max-width: 340px) {
+  .navegar {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Celular deitado: pouca altura, então menos espaço vertical. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .botao-grande {
+    min-height: 2.75rem;
+    padding: 0.5rem;
+  }
+  h1 {
+    font-size: 1.3rem;
+  }
+  /* A confirmação fica ao lado da navegação para caber sem rolar. */
+  .parada.atual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 0.8rem;
+  }
+  .parada.atual .parada-topo {
+    grid-column: 1 / -1;
+  }
+  .parada.atual .navegar {
+    grid-template-columns: 1fr;
+    align-content: start;
+  }
+  .parada.atual .confirmar {
+    margin: 0.8rem 0;
+  }
+}
+
+/* Tablet: aproveita melhor a largura. */
+@media (min-width: 768px) {
+  .tela {
+    max-width: 720px;
+  }
 }

@@ -46,7 +46,7 @@ Este repositório é a versão 2.0; a 1.0 fica intocada na tag `v1.0` e no
 repositório original. Etapas da 2.0, uma por commit (ou poucos commits):
 
 1. Contador de pedidos do dia ✅
-2. Interface mais limpa
+2. Interface mais limpa ✅
 3. Pedidos de qualquer plataforma (iFood e 99Food primeiro)
 
 ## Layout
@@ -165,6 +165,12 @@ cadastro manual passa pela mesma `portas/entrada` com origem `MANUAL`.
 - Atualização das telas por polling (a cada poucos segundos), conforme o plano
   técnico; WebSocket só se sobrar tempo.
 - Mapa: Leaflet + tiles do OpenStreetMap (gratuito, RNF13).
+- Cores (versão 2.0): telas neutras e verde (`--primaria`) como cor do
+  sistema. Vermelho só para atrasado/erro, âmbar só para crítico/alerta; o
+  pedido normal é cinza. Cores fortes vão em faixas, textos e selos claros,
+  não em fundos inteiros. As variáveis ficam no `:root` de cada `index.css`.
+- O app do entregador é responsivo: tamanhos com `clamp()`, `safe-area` do
+  celular e ajustes para tela estreita, celular deitado e tablet.
 
 ## Comandos
 

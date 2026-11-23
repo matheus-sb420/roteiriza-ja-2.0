@@ -24,14 +24,14 @@ function iconeDoPedido(pedido, { selecionado, corRota }) {
     pedido.tipoEntrega === 'plataforma' ? 'pino-plataforma' : '',
     selecionado ? 'selecionado' : '',
   ].join(' ');
-  const borda = corRota ? `style="box-shadow: 0 0 0 3px ${corRota}"` : '';
+  const borda = corRota ? `style="box-shadow: 0 0 0 2px ${corRota}"` : '';
   return L.divIcon({
     className: '',
     iconSize: null,
     html: `<div class="${classes}" ${borda}>
       <b class="pino-numero">${numeroPedido(pedido)}</b>
       <span class="pino-codigo">${escaparHtml(codigoPlataforma(pedido))}</span>
-      <span>${u.simbolo} ${formatarFolga(pedido.folga)}</span>
+      <span class="pino-folga">${u.simbolo} ${formatarFolga(pedido.folga)}</span>
     </div>`,
   });
 }
@@ -52,12 +52,12 @@ function Setores({ centro, raioMaximoKm }) {
   return (
     <>
       {aneis.map((km) => (
-        <Circle key={km} center={centro} radius={km * 1000} pathOptions={{ color: '#555', weight: 1, fill: false }} />
+        <Circle key={km} center={centro} radius={km * 1000} pathOptions={{ color: '#9aa09c', weight: 1, fill: false }} />
       ))}
       <Circle
         center={centro}
         radius={raioMaximoKm * 1000}
-        pathOptions={{ color: '#c62828', weight: 2, dashArray: '6 6', fill: false }}
+        pathOptions={{ color: '#6b716d', weight: 1.5, dashArray: '6 6', fill: false }}
       />
       {[...aneis, raioMaximoKm].map((km) => (
         <Marker
@@ -71,7 +71,7 @@ function Setores({ centro, raioMaximoKm }) {
         <Polyline
           key={fatia}
           positions={[centro, pontoADistancia(centro, raioMaximoKm, i * 45 + 22.5)]}
-          pathOptions={{ color: '#555', weight: 1, dashArray: '2 6' }}
+          pathOptions={{ color: '#9aa09c', weight: 1, dashArray: '2 6' }}
         />
       ))}
       {FATIAS.map((fatia, i) => (

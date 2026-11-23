@@ -143,7 +143,10 @@ Anéis de 2 km em volta da pizzaria e 8 fatias, como uma pizza. Ex.:
 folga = horário prometido − (agora + tempo médio do anel)
 ```
 
-Recalculada a cada minuto: atrasado (vermelho), crítico (laranja), normal (verde).
+Recalculada a cada minuto: atrasado (vermelho), crítico (âmbar), normal (cinza).
+Na versão 2.0 o normal passou de verde para cinza: o verde virou a cor do
+sistema (botões e destaques), e o mapa fica neutro, com cor forte só nos
+pedidos que exigem atenção.
 
 ## 5. Regras de negócio
 
@@ -156,7 +159,7 @@ Recalculada a cada minuto: atrasado (vermelho), crítico (laranja), normal (verd
 | RN05 | A sugestão automática considera apenas pedidos de entrega própria com status "pronto". |
 | RN06 | Uma rota manual pode incluir pedidos em preparo. Ao despachar, o sistema avisa quais não estão prontos e a folga dos demais; a atendente decide. |
 | RN07 | Folga = horário prometido − (agora + tempo médio do anel). |
-| RN08 | Atrasado se a folga for negativa; crítico se entre 0 e o limite configurado (padrão 10 min); normal acima disso. |
+| RN08 | Atrasado se a folga for negativa; crítico se entre 0 e o limite configurado (padrão 10 min); normal acima disso. Cores: vermelho, âmbar e cinza, sempre com símbolo e texto (RNF02). |
 | RN09 | Anéis de 2 km de largura, com centro no endereço da pizzaria. Raio máximo configurável até 12 km (até 6 anéis). |
 | RN10 | 8 fatias de 45°: N, NE, L, SE, S, SO, O, NO. A fatia N vai de 337,5° a 22,5°, medidos a partir do norte no sentido horário. |
 | RN11 | Pedidos além do raio máximo são "fora da área": não entram em sugestões, mas podem ir em rota manual. |

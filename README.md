@@ -29,7 +29,7 @@ não sugere rotas e não sabe o que está pronto.
 ## Como o sistema resolve
 
 1. Cada pedido aparece no mapa com a cor da urgência: **atrasado** (vermelho),
-   **crítico** (laranja) ou **normal** (verde), calculada pela *folga*:
+   **crítico** (âmbar) ou **normal** (cinza), calculada pela *folga*:
 
    ```
    folga = horário prometido − (agora + tempo médio do anel)
@@ -210,7 +210,7 @@ Mudanças para levar o sistema a uma operação real, uma por vez:
 
 - [x] **1. Contador de pedidos do dia** — o pedido passa a ser "#8" na tela,
   com o código e a plataforma logo abaixo
-- [ ] **2. Interface mais limpa** no despacho e no app do entregador
+- [x] **2. Interface mais limpa** no despacho e no app do entregador
 - [ ] **3. Pedidos de qualquer plataforma**, a começar por iFood e 99Food
 
 ## Autoria

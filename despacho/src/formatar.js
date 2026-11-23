@@ -2,9 +2,9 @@
 
 // RNF02: a urgência não depende só da cor; cada classe tem símbolo e nome.
 export const URGENCIA = {
-  atrasado: { simbolo: '▲', nome: 'Atrasado', cor: '#d32f2f' },
-  critico: { simbolo: '!', nome: 'Crítico', cor: '#ef6c00' },
-  normal: { simbolo: '●', nome: 'Normal', cor: '#2e7d32' },
+  atrasado: { simbolo: '▲', nome: 'Atrasado', cor: '#c62828' },
+  critico: { simbolo: '!', nome: 'Crítico', cor: '#d98200' },
+  normal: { simbolo: '●', nome: 'Normal', cor: '#8a8f8b' },
 };
 
 export const STATUS = {
@@ -33,8 +33,9 @@ export function hora(data) {
 
 export const setor = (p) => (p.foraDaArea ? 'Fora da área' : `Anel ${p.anel} · ${p.fatia}`);
 
-// Cores das rotas no mapa e na lateral.
-const CORES_ROTAS = ['#1565c0', '#6a1b9a', '#00838f', '#ad1457', '#4e342e', '#283593', '#558b2f', '#f9a825'];
+// Cores das rotas no mapa e na lateral. Sem verde (cor do sistema), vermelho
+// e âmbar (urgência), para uma rota nunca parecer um alerta.
+const CORES_ROTAS = ['#1565c0', '#6a1b9a', '#00838f', '#ad1457', '#5d4037', '#283593', '#455a64', '#0277bd'];
 export const corDaRota = (indice) => CORES_ROTAS[indice % CORES_ROTAS.length];
 
 // RN28: o pedido é identificado pelo contador do dia ("#8"); o código e a
