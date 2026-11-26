@@ -127,19 +127,35 @@ O `npm run iniciar` mostra também o endereço para abrir o app **no celular**
 (mesma rede Wi-Fi do computador). As telas descobrem sozinhas onde está a API,
 então não é preciso editar nenhum `.env` para isso.
 
-**Localização do entregador e HTTPS.** O navegador só libera a localização
-em endereço seguro: `https://…` ou `localhost`. Pelo endereço da rede Wi-Fi
-(`http://192.168.…:5174`) o app funciona, mas mostra que a localização precisa
-de https. Para testar no celular:
+### App do entregador no celular (https e localização)
 
-- **Android/Chrome:** abra `chrome://flags/#unsafely-treat-insecure-origin-as-secure`,
-  coloque o endereço do app (ex.: `http://192.168.0.10:5174`), ative e reinicie o Chrome.
-- **Qualquer celular:** use um túnel com https, como `cloudflared tunnel --url http://localhost:5174`
-  (e outro para a API na porta 3000, apontado em `VITE_API_URL`).
+O navegador do celular só libera a localização em endereço seguro (`https`).
+Pelo endereço do Wi-Fi (`http://192.168.…:5174`) o app funciona, mas sem
+localização, e só enquanto o entregador estiver no Wi-Fi da loja. Para o uso
+real, abra um **túnel https**: um link público que funciona com os dados
+móveis, em qualquer lugar.
 
-Em produção, o app e a API devem ficar num domínio com certificado (por
-exemplo, Let's Encrypt). O app só envia a posição com a tela ligada e o app
-aberto; por isso ele pede para manter a tela acesa durante a rota.
+1. Instale o `cloudflared` uma vez (gratuito, não precisa de conta):
+   - Windows: `winget install --id Cloudflare.cloudflared`
+   - macOS: `brew install cloudflared`
+   - Linux: [página de downloads da Cloudflare](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/)
+2. Com o `npm run iniciar` rodando, abra outro terminal e rode:
+   ```bash
+   npm run tunel
+   ```
+3. Abra no celular o link `https://….trycloudflare.com` que aparece. O
+   entregador entra com telefone e PIN e toca em **Permitir localização**.
+   Dá para usar "Adicionar à tela inicial" para abrir como app.
+
+O link muda cada vez que o túnel é aberto. Só o app do entregador fica
+acessível pelo link: o despacho e a administração continuam só neste
+computador. O login do app bloqueia o telefone por 15 min depois de 5 PINs
+errados (RNF15).
+
+O app só envia a posição com a tela ligada e o app aberto; por isso ele pede
+para manter a tela acesa durante a rota. Para um endereço fixo (ex.:
+`entregas.minhaloja.com.br`), o caminho é um túnel com nome na Cloudflare ou
+publicar o sistema num servidor com certificado.
 
 ### Jeito manual (cada parte no seu terminal)
 

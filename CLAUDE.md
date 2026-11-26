@@ -167,7 +167,11 @@ responde 409 com `detalhes.precisaConfirmar` e a tela reenvia com
 ## API
 
 Endpoints documentados em `docs/api.md` (atualizar ao criar ou mudar um).
-Admin usa JWT (`Authorization: Bearer`); fontes usam `x-chave-fonte`. O
+Admin usa JWT (`Authorization: Bearer`); fontes usam `x-chave-fonte`. Logins
+com limite de tentativas (`http/limite-tentativas.js`, RNF15). O app do
+entregador chama a API pelo próprio endereço (`/app/…`) e o Vite repassa para
+a porta 3000 (`app-entregador/vite.config.js`): assim o túnel https expõe só o
+app e as rotas `/app/…`, nunca o despacho. O
 cadastro manual passa pela mesma `portas/entrada` com origem `MANUAL`.
 
 ## Convenções
@@ -193,6 +197,7 @@ cadastro manual passa pela mesma `portas/entrada` com origem `MANUAL`.
 
 ```bash
 npm run instalar / preparar-banco / iniciar / testar   # na raiz: atalhos para as 4 partes
+npm run tunel                           # na raiz: link https público para o app (precisa do cloudflared)
 cd api && npm install && npm run dev     # API em http://localhost:3000
 cd api && npm test                       # Jest (sem banco)
 cd api && npm run test:banco             # recria o banco de teste e roda *.banco.test.js

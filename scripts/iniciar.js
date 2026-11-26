@@ -39,6 +39,7 @@ setTimeout(() => {
  App do entregador:   http://localhost:5174${ip ? `   |  no celular: http://${ip}:5174` : ''}
  Simulador:           http://localhost:4000
  Entregadores demo:   19900000001 / PIN 1111  (também ...02/2222 e ...03/3333)
+ Localização no celular precisa de https: em outro terminal, "npm run tunel".
  Ctrl+C encerra tudo.
 ==================================================================`);
 }, 4000);

@@ -49,6 +49,17 @@ describe('login do entregador (RF22)', () => {
     expect(errado.status).toBe(401);
   });
 
+  it('bloqueia o login depois de 5 PINs errados para o mesmo telefone (RNF15)', async () => {
+    const { body } = await admin(request(app).post('/api/entregadores')).send({ nome: 'Ana', telefone: '19955556666' });
+    for (let i = 0; i < 5; i++) {
+      const r = await request(app).post('/app/login').send({ telefone: '19955556666', pin: 'xxxx' });
+      expect(r.status).toBe(401);
+    }
+    // Nem o PIN certo entra durante o bloqueio, com qualquer formato do telefone.
+    const certo = await request(app).post('/app/login').send({ telefone: '(19) 95555-6666', pin: body.pin });
+    expect(certo.status).toBe(429);
+  });
+
   it('token de entregador não abre o despacho', async () => {
     const { token } = await rotaDespachada([{}]);
     const r = await request(app).get('/api/pedidos').set('Authorization', `Bearer ${token}`);

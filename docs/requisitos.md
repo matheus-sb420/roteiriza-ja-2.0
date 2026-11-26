@@ -279,7 +279,8 @@ RF01–RF21: sistema de despacho. RF22–RF27: app do entregador.
 | RNF11 | Manutenibilidade | O núcleo não depende de nenhuma fonte de pedidos específica |
 | RNF12 | Manutenibilidade | O algoritmo de sugestão tem testes automatizados com cenários conhecidos |
 | RNF13 | Custo | Base cartográfica gratuita |
-| RNF14 | Segurança | O app do entregador é servido por HTTPS em produção: sem endereço seguro, o navegador não libera a localização (RN29) |
+| RNF14 | Segurança | O app do entregador é servido por HTTPS (túnel ou servidor com certificado): sem endereço seguro, o navegador não libera a localização (RN29). Só as rotas do app (`/app/…`) ficam acessíveis de fora; o despacho fica no computador da loja |
+| RNF15 | Segurança | O login bloqueia o telefone (ou usuário) por 15 min depois de 5 senhas/PINs errados seguidos |
 
 ## 9. Arquitetura de integração
 

@@ -6,6 +6,7 @@
     "instalar": "node scripts/instalar.js",
     "preparar-banco": "npm --prefix api run db:reset",
     "iniciar": "node scripts/iniciar.js",
+    "tunel": "node scripts/tunel.js",
     "testar": "npm --prefix api test && npm --prefix api run test:banco && npm --prefix simulador test"
   }
 }

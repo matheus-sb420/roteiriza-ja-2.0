@@ -7,7 +7,7 @@ Base: `http://localhost:3000`. Corpo e respostas em JSON. Erros vêm como
 
 | Quem | Como |
 |---|---|
-| Administrador (despacho) | `POST /auth/login` → `{ token }`; enviar `Authorization: Bearer <token>` |
+| Administrador (despacho) | `POST /auth/login` → `{ token }` (bloqueio de 15 min após 5 senhas erradas, RNF15); enviar `Authorization: Bearer <token>` |
 | Fontes de pedidos | Cabeçalho `x-chave-fonte: <CHAVE_FONTES do .env>` |
 
 ## Porta de entrada (fontes de pedidos)
@@ -68,7 +68,7 @@ Exemplo de novo pedido:
 
 | Método | Caminho | O que faz |
 |---|---|---|
-| POST | `/app/login` | `{ telefone, pin }` → `{ token, nome }` |
+| POST | `/app/login` | `{ telefone, pin }` → `{ token, nome }`. Depois de 5 PINs errados seguidos para o telefone, responde `429` por 15 min (RNF15) |
 | GET | `/app/rota` | Rota despachada do entregador logado: `{ rota: { id, paradas: [...] }, paradaAtualId }` ou `{ rota: null }` |
 | POST | `/app/posicao` | `{ latitude, longitude, precisao? }` (precisão em metros) → `201 { gravada: true }` ou `202 { gravada: false, motivo: "precisao_baixa" \| "fora_de_servico" }` (RN29) |
 | POST | `/app/paradas/:pedidoId/confirmar` | `{ codigo }` (só se o pedido exige código) → `{ resultado: "entregue" \| "codigo_invalido" \| "pendente", tentativasRestantes?, rotaConcluida }` |

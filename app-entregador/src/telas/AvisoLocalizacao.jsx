@@ -34,7 +34,8 @@ export default function AvisoLocalizacao({ situacao, aoPermitir }) {
     case SITUACAO.SEM_HTTPS:
       return (
         <p className="localizacao localizacao-alerta">
-          📍 A localização só funciona quando o app é aberto por um endereço seguro (https). Avise a loja.
+          📍 A localização não funciona por este endereço. Abra o app pelo link que começa com{' '}
+          <strong>https://</strong>, que a loja envia.
         </p>
       );
     case SITUACAO.INDISPONIVEL:

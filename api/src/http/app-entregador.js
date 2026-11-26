@@ -4,11 +4,16 @@ const { loginEntregador } = require('../servicos/autenticacao');
 const entregas = require('../servicos/entregas');
 const { registrarPosicao } = require('../servicos/rastreio');
 const { exigirEntregador } = require('./middlewares');
+const { criarLimiteTentativas, comLimite } = require('./limite-tentativas');
 
 const router = Router();
+const limiteLogin = criarLimiteTentativas();
 
+// RNF15: 5 PINs errados para o mesmo telefone bloqueiam o login por 15 min.
 router.post('/login', async (req, res) => {
-  res.json(await loginEntregador(req.body.telefone, req.body.pin));
+  const { telefone, pin } = req.body;
+  const chave = String(telefone || '').replace(/\D/g, '');
+  res.json(await comLimite(limiteLogin, chave, () => loginEntregador(telefone, pin)));
 });
 
 router.get('/rota', exigirEntregador, async (req, res) => {
